@@ -1,0 +1,6 @@
+{
+    "makefile.extensionOutputFolder": "./.vscode",
+    "C_Cpp.default.compilerPath": "C:/MinGw/bin/g++.exe",
+    "C_Cpp.default.includePath": ["${workspaceFolder}/**"]
+
+}
