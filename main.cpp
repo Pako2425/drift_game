@@ -23,6 +23,11 @@ int main()
     {
         return EXIT_FAILURE;
     }
+
+
+
+
+
     while(window.isOpen())
     {
         sf::Event event;
@@ -62,7 +67,7 @@ int main()
         myCar.steering();
         myCar.workOfEngine();
 
-        text.setString(std::to_string(myCar.currentEngineRpm));
+        text.setString(std::to_string(myCar.steeringWheelPosition));
         window.clear();
         revLine.setPosition(300,300);
         revLine.setRotation(110.0 + (float(myCar.currentEngineRpm) / 31.0));
@@ -70,8 +75,8 @@ int main()
         //myCar.setPosition(myCarx, myCary);
         //myCar.setRotation(carAngle);
         //window.draw(myCar);
-        text.setPosition(100, 100);
-        //window.draw(text);
+        text.setPosition(100, 50);
+        window.draw(text);
         window.display();
     }
 

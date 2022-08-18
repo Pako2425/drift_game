@@ -2,31 +2,34 @@
 
 void Car::steering()
 {
-    if(Car::steeringWheelPosition > 0 and Car::steeringWheelPosition < 540)
+    if(Car::steerLeft)
     {
-        if(Car::steerLeft)
+        if(Car::steeringWheelPosition < 540)
         {
-            steeringWheelPosition += Car::dsteer;
-        }
-        else
-        {
-            steeringWheelPosition -= Car::dsteer;
+            Car::steeringWheelPosition += Car::dsteer;
         }
     }
-    else if(Car::steeringWheelPosition < 0 and Car::steeringWheelPosition > -540)
+    else if(Car::steerRight)
     {
-        if(Car::steerRight)
+        if(Car::steeringWheelPosition > -540)
         {
-            steeringWheelPosition -= Car::dsteer;
-        }
-        else
-        {
-            steeringWheelPosition += Car::dsteer;
+            Car::steeringWheelPosition -= Car::dsteer;
         }
     }
     else
     {
-        steeringWheelPosition = steeringWheelPosition;
+        if(Car::steeringWheelPosition > 0)
+        {
+            Car::steeringWheelPosition -= 10;
+        }
+        else if(Car::steeringWheelPosition < 0)
+        {
+            Car:;steeringWheelPosition += 10;
+        }
+        else
+        {
+            Car::steeringWheelPosition = Car::steeringWheelPosition;
+        }
     }
     
 }
@@ -68,18 +71,21 @@ void Car::workOfEngine()
     }
 }
 
-void Car::shiftUp()
+void Car::gearShifting()
 {
-    if(Car::currentGear < 5)
+    if(Car::shiftUp)
     {
-        Car::currentGear ++;
+        if(Car::currentGear < 5)
+        {
+            Car::currentGear ++;
+        }
     }
-}
-
-void Car::shiftDown()
-{
-    if(Car::currentGear > 0)
+    else if(Car::shiftDown)
     {
-        Car::currentGear --;
+        if(Car::currentGear > 0)
+        {
+            Car::currentGear --;
+        }
     }
+    Car::currentEngineRpm = Car::currentGear * Car::wheelsAngleVelocity;
 }

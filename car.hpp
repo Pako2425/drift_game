@@ -8,6 +8,8 @@ class Car
     bool gas;
     bool brake;
     bool handbrake;
+    bool shiftUp;
+    bool shiftDown;
     unsigned int xCarPos;
     unsigned int yCarPos;
     unsigned int carAngle;
@@ -36,6 +38,7 @@ class Car
     void handBraking();
     void shiftUp();
     void shiftDown();
+    void gearShifting();
     
 
     Car(unsigned int xIdleCarPos, unsigned int yIdleCarPos, unsigned int idleCarAngle)
@@ -47,6 +50,8 @@ class Car
         gas = false;
         brake = false;
         handbrake = false;
+        shiftUp = false;
+        shiftDown = false;
         xCarPos = xIdleCarPos;
         yCarPos = yIdleCarPos;
         carAngle = idleCarAngle;
