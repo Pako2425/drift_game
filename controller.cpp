@@ -8,6 +8,8 @@ void Controller::readInput()
     Controller::steerLeft = false;
     Controller::steerRight = false;
     Controller::handBrake = false;
+    Controller::shiftUp = false;
+    Controller::shiftDown = false;
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
     {
         Controller::gasPedal = true;
@@ -23,6 +25,14 @@ void Controller::readInput()
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
     {
         Controller::steerRight = true;
+    }
+    if(sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+    {
+        Controller::shiftUp = true;
+    }
+    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Z))
+    {
+        Controller::shiftDown = true;
     }
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
     {

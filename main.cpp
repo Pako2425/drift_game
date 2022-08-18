@@ -16,9 +16,13 @@ int main()
     window.setFramerateLimit(60);
     sf::Font font;
     sf::Text text;
+    sf::Text text2;
     text.setFont(font);
     text.setCharacterSize(50);
+    text2.setFont(font);
+    text2.setCharacterSize(50);
     text.setFillColor(sf::Color::Green);
+    text2.setFillColor(sf::Color::Yellow);
     if(!font.loadFromFile("font_files/atwriter.ttf"))
     {
         return EXIT_FAILURE;
@@ -38,12 +42,14 @@ int main()
                 window.close();
             }
         }
-        myController.readInput();
         myCar.steerLeft = false;
         myCar.steerRight = false;
         myCar.gas = false;
         myCar.brake = false;
         myCar.handbrake = false;
+        myCar.shiftUp = false;
+        myCar.shiftDown = false;
+        myController.readInput();
         if(myController.steerLeft)
         {
             myCar.steerLeft = true;
@@ -60,14 +66,26 @@ int main()
         {
             myCar.brake = true;
         }
+        if(myController.shiftUp)
+        {
+            myCar.shiftUp = true;
+        }
+        else if(myController.shiftDown)
+        {
+            myCar.shiftDown = true;
+        }
         if(myController.handBrake)
         {
             myCar.handbrake = true;
         }
         myCar.steering();
         myCar.workOfEngine();
+        myCar.shiftGear();
 
+
+        
         text.setString(std::to_string(myCar.steeringWheelPosition));
+        text2.setString(std::to_string(myCar.currentGear));
         window.clear();
         revLine.setPosition(300,300);
         revLine.setRotation(110.0 + (float(myCar.currentEngineRpm) / 31.0));
@@ -76,7 +94,12 @@ int main()
         //myCar.setRotation(carAngle);
         //window.draw(myCar);
         text.setPosition(100, 50);
+        text2.setPosition(10,10);
         window.draw(text);
+        if(true)
+        {
+            window.draw(text2);
+        }
         window.display();
     }
 

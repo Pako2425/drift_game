@@ -6,6 +6,8 @@ class Controller
         bool handBrake;
         bool steerLeft;
         bool steerRight;
+        bool shiftUp;
+        bool shiftDown;
         void readInput();
 
     Controller()
@@ -15,5 +17,7 @@ class Controller
         handBrake = false;
         steerLeft = false;
         steerRight = false;
+        shiftUp = false;
+        shiftDown = false;
     }
 };

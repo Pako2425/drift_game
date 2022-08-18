@@ -10,11 +10,12 @@ class Car
     bool handbrake;
     bool shiftUp;
     bool shiftDown;
+    bool prevShift;
     unsigned int xCarPos;
     unsigned int yCarPos;
     unsigned int carAngle;
     int wheelsSize;         //in milimiters
-    int wheelsAngleVelocity;
+    float wheelsAngleVelocity;
     int xCarVelocity;   //in m/s
     int yCarVelocity;   //in m/s
     unsigned int idleEngineRpm;
@@ -33,13 +34,13 @@ class Car
 
     float tireSlip;    //<0 tire have grip, >0 tire have no grip
 
-    void steering();
-    void workOfEngine();
+    void updateStateOfSteeringSystem();
+    void updateStateOfEngine();
+    void updateStateOfGerbox();
+    void updateStateOfWheels();
+    void updateStateOfDriveSystem();
+    void shiftGear();
     void handBraking();
-    void shiftUp();
-    void shiftDown();
-    void gearShifting();
-    
 
     Car(unsigned int xIdleCarPos, unsigned int yIdleCarPos, unsigned int idleCarAngle)
     {
@@ -52,6 +53,7 @@ class Car
         handbrake = false;
         shiftUp = false;
         shiftDown = false;
+        prevShift = false;
         xCarPos = xIdleCarPos;
         yCarPos = yIdleCarPos;
         carAngle = idleCarAngle;

@@ -1,6 +1,6 @@
 #include "car.hpp"
 
-void Car::steering()
+void Car::updateStateOfSteeringSystem()
 {
     if(Car::steerLeft)
     {
@@ -34,7 +34,7 @@ void Car::steering()
     
 }
 
-void Car::workOfEngine()
+void Car::driveSystem()
 {
     if(Car::gas)
     {
@@ -71,21 +71,23 @@ void Car::workOfEngine()
     }
 }
 
-void Car::gearShifting()
+void Car::shiftGear()
 {
-    if(Car::shiftUp)
+    if(Car::shiftUp and !Car::prevShift)
     {
         if(Car::currentGear < 5)
         {
             Car::currentGear ++;
+            Car::currentEngineRpm = static_cast<int>(Car::wheelsAngleVelocity * Car::gearRatio[Car::currentGear] * Car::finalDrive);
         }
     }
-    else if(Car::shiftDown)
+    else if(Car::shiftDown and !Car::prevShift)
     {
         if(Car::currentGear > 0)
         {
             Car::currentGear --;
+            Car::currentEngineRpm = static_cast<int>(Car::wheelsAngleVelocity * Car::gearRatio[Car::currentGear] * Car::finalDrive);
         }
     }
-    Car::currentEngineRpm = Car::currentGear * Car::wheelsAngleVelocity;
+    Car::prevShift = Car::shiftUp or Car::shiftDown;
 }
