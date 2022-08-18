@@ -42,13 +42,7 @@ int main()
                 window.close();
             }
         }
-        //myCar.steerLeft = false;
-        //myCar.steerRight = false;
-        //myCar.gas = false;
-        //myCar.brake = false;
         myCar.handbrake = false;
-        myCar.shiftUp = false;
-        myCar.shiftDown = false;
         myController.readInput();
         if(myController.steerLeft)
         {
@@ -75,25 +69,31 @@ int main()
         {
             myCar.pressPedal(NONE_PEDAL);
         }
-        
+
         if(myController.shiftUp)
         {
-            myCar.shiftUp = true;
+            myCar.shiftGear(SHIFT_UP);
+            myCar.currentEngineRpm = static_cast<int>(myCar.wheelsAngleVelocity * myCar.gearRatio[myCar.currentGear] * myCar.finalDrive);
         }
         else if(myController.shiftDown)
         {
-            myCar.shiftDown = true;
+            myCar.shiftGear(SHIFT_DOWN);
+            myCar.currentEngineRpm = static_cast<int>(myCar.wheelsAngleVelocity * myCar.gearRatio[myCar.currentGear] * myCar.finalDrive);
+        }
+        else
+        {
+            myCar.prevShift = false;
         }
         if(myController.handBrake)
         {
             myCar.handbrake = true;
         }
-        //myCar.steering();
-        //myCar.workOfEngine();
-        //myCar.shiftGear();
+        myCar.calculateWheelsAngleVelocity();
 
 
-        
+
+
+
         text.setString(std::to_string(myCar.steeringWheelPosition));
         text2.setString(std::to_string(myCar.currentGear));
         window.clear();
@@ -108,7 +108,7 @@ int main()
         window.draw(text);
         if(true)
         {
-            window.draw(text2);
+           window.draw(text2); 
         }
         window.display();
     }

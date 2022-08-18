@@ -69,25 +69,38 @@ void Car::pressPedal(enum carPedals pressedPedal)
     }
 }
 
-void Car::updateStateOfGerbox()
+void Car::shiftGear(enum shifterAction action)
 {
-    if(Car::shiftUp and !Car::prevShift)
+    switch(action)
     {
-        if(Car::currentGear < 5)
-        {
-            Car::currentGear ++;
-            Car::currentEngineRpm = static_cast<int>(Car::wheelsAngleVelocity * Car::gearRatio[Car::currentGear] * Car::finalDrive);
-        }
+        case SHIFT_UP:
+            if(!Car::prevShift)
+            {
+                if(Car::currentGear < 5)
+                {
+                    Car::currentGear ++;
+                }
+                Car::prevShift = true;
+            }
+            
+            break;
+        case SHIFT_DOWN:
+            if(!Car::prevShift)
+            {
+                if(Car::currentGear > 0)
+                {
+                    Car::currentGear --;
+                }
+                Car::prevShift = true;
+            }
+            break;
+        default:
+            Car::currentGear = Car::currentGear;
+            Car::prevShift = false;
     }
-    else if(Car::shiftDown and !Car::prevShift)
-    {
-        if(Car::currentGear > 0)
-        {
-            Car::currentGear --;
-            Car::currentEngineRpm = static_cast<int>(Car::wheelsAngleVelocity * Car::gearRatio[Car::currentGear] * Car::finalDrive);
-        }
-    }
-    Car::prevShift = Car::shiftUp or Car::shiftDown;
 }
 
-
+void Car::calculateWheelsAngleVelocity()
+{
+    Car::wheelsAngleVelocity = (static_cast<float>(Car::currentEngineRpm) / (Car::gearRatio[Car::currentGear] * Car::finalDrive));
+}

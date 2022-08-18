@@ -1,18 +1,13 @@
 enum steeringDirections {NONE_DIRECTION, LEFT, RIGHT};
 enum carPedals {NONE_PEDAL, GAS, BRAKE};
+enum shifterAction {STAY_ON, SHIFT_UP, SHIFT_DOWN};
 
 class Car
 {
     public:
-    //bool steerLeft;
-    //bool steerRight;
     int steeringWheelPosition;   //-540-540
     unsigned int dsteer;
-    //bool gas;
-    //bool brake;
     bool handbrake;
-    bool shiftUp;
-    bool shiftDown;
     bool prevShift;
     unsigned int xCarPos;
     unsigned int yCarPos;
@@ -37,17 +32,10 @@ class Car
 
     float tireSlip;    //<0 tire have grip, >0 tire have no grip
 
-    void updateStateOfSteeringSystem();
-    void updateStateOfEngine();
-    void updateStateOfGerbox();
-    void updateStateOfWheels();
-    void updateStateOfDriveSystem();
-
     void steering(enum steeringDirections);
     void pressPedal(enum carPedals);
-    void pressGas();
-    void pressBrake();
-    void shiftGear();
+    void shiftGear(enum shifterAction);
+    void calculateWheelsAngleVelocity();
     void handBraking();
 
     Car(unsigned int xIdleCarPos, unsigned int yIdleCarPos, unsigned int idleCarAngle)
@@ -55,8 +43,6 @@ class Car
         steeringWheelPosition = 0;
         dsteer = 10;
         handbrake = false;
-        shiftUp = false;
-        shiftDown = false;
         prevShift = false;
         xCarPos = xIdleCarPos;
         yCarPos = yIdleCarPos;
