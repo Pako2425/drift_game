@@ -1,26 +1,60 @@
 class Car
 {
-    int steering;   //-540-540
-    unsigned int gas;       //0-100
-    unsigned int brake;     //0-100
-    unsigned int idleEngineRpm;
-    unsigned int currentEngineRpm;  //idle-max
-    unsigned int maxEngineRpm;
-
+    public:
+    bool steerLeft;
+    bool steerRight;
+    int steeringWheelPosition;   //-540-540
+    bool gas;
+    bool brake;
     unsigned int xCarPos;
     unsigned int yCarPos;
     unsigned int carAngle;
+    int wheelsSize;         //in milimiters
+    int wheelsAngleVelocity;
+    int xCarVelocity;   //in m/s
+    int yCarVelocity;   //in m/s
+    unsigned int idleEngineRpm;
+    unsigned int maxEngineRpm;
+    unsigned int currentEngineRpm;  //idle-max
+    unsigned int currentGear;
+    float gearRatio[6];
+    float finalDrive;
+
+    //Silnik wytwarza moc. Przenosi ją na koła za pomocą skrzyni i reszty układu przeniesienia.
+    //Guma na kołach obracając się wytwarza siłę tarcia która pcha samochód do przodu. Jeżeli układ
+    //przeniesienia przeniesie zbyt dużo mocy z silnika, to maksymalna siła tarcia opony zostanie 
+    //przełamana i opona straci przyczepność.
+    //Należy obliczać przyrost zmiany prędkości kątowej koła, jeżeli będzie zbyt duży to opona straci
+    //przyczepność.
+
+    float tireSlip;    //<0 tire have grip, >0 tire have no grip
+
+    void steering();
+    void shiftUp();
+    void shiftDown();
+    void workOfEngine();
 
     Car(unsigned int xIdleCarPos, unsigned int yIdleCarPos, unsigned int idleCarAngle)
     {
-        steering = 0;
-        gas = 0;
-        brake = 0;
-        idleEngineRpm = 800;
-        currentEngineRpm = idleEngineRpm;
-        maxEngineRpm = 8000;
+        steerLeft = false;
+        steerRight = false;
+        steeringWheelPosition = 0;
+        gas = false;
+        brake = false;
         xCarPos = xIdleCarPos;
         yCarPos = yIdleCarPos;
         carAngle = idleCarAngle;
+        wheelsSize = 215;       //in milimiters
+        idleEngineRpm = 800;
+        maxEngineRpm = 8400;
+        currentEngineRpm = idleEngineRpm;
+        currentGear = 1;
+        gearRatio[0] = 4.04; //the reverse gear
+        gearRatio[1] = 4.23;
+        gearRatio[2] = 2.52;
+        gearRatio[3] = 1.66;
+        gearRatio[4] = 1.22;
+        gearRatio[5] = 1.00;
+        finalDrive = 3.45;
     }
 };
