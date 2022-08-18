@@ -4,8 +4,10 @@ class Car
     bool steerLeft;
     bool steerRight;
     int steeringWheelPosition;   //-540-540
+    unsigned int dsteer;
     bool gas;
     bool brake;
+    bool handbrake;
     unsigned int xCarPos;
     unsigned int yCarPos;
     unsigned int carAngle;
@@ -30,17 +32,21 @@ class Car
     float tireSlip;    //<0 tire have grip, >0 tire have no grip
 
     void steering();
+    void workOfEngine();
+    void handBraking();
     void shiftUp();
     void shiftDown();
-    void workOfEngine();
+    
 
     Car(unsigned int xIdleCarPos, unsigned int yIdleCarPos, unsigned int idleCarAngle)
     {
         steerLeft = false;
         steerRight = false;
         steeringWheelPosition = 0;
+        dsteer = 10;
         gas = false;
         brake = false;
+        handbrake = false;
         xCarPos = xIdleCarPos;
         yCarPos = yIdleCarPos;
         carAngle = idleCarAngle;

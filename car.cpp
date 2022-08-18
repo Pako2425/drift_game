@@ -6,22 +6,22 @@ void Car::steering()
     {
         if(Car::steerLeft)
         {
-            steeringWheelPosition += 10;
+            steeringWheelPosition += Car::dsteer;
         }
         else
         {
-            steeringWheelPosition -= 10;
+            steeringWheelPosition -= Car::dsteer;
         }
     }
     else if(Car::steeringWheelPosition < 0 and Car::steeringWheelPosition > -540)
     {
         if(Car::steerRight)
         {
-            steeringWheelPosition -= 10;
+            steeringWheelPosition -= Car::dsteer;
         }
         else
         {
-            steeringWheelPosition += 10;
+            steeringWheelPosition += Car::dsteer;
         }
     }
     else

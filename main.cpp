@@ -33,18 +33,20 @@ int main()
                 window.close();
             }
         }
-        
         myController.readInput();
-        
+        myCar.steerLeft = false;
+        myCar.steerRight = false;
+        myCar.gas = false;
+        myCar.brake = false;
+        myCar.handbrake = false;
         if(myController.steerLeft)
         {
-            myCar.steering++;
+            myCar.steerLeft = true;
         }
         else if(myController.steerRight)
         {
-            myCar.steering++;
+            myCar.steerRight = true;
         }
-        
         if(myController.gasPedal)
         {
             myCar.gas = true;
@@ -53,43 +55,13 @@ int main()
         {
             myCar.brake = true;
         }
-        
-        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+        if(myController.handBrake)
         {
-            if(myCary > 10)
-            {
-                myCary -= 3;
-            }
+            myCar.handbrake = true;
         }
-        else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
-        {
-            if(myCary < 590)
-            {
-                myCary += 3;
-            }
-        }
+        myCar.steering();
+        myCar.workOfEngine();
 
-        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
-        {
-            carAngle ++;
-        }
-        */
-       myCar.gas = false;
-       myCar.brake = false;
-        if(sf::Keyboard::isKeyPressed(sf::Keyboard::A))
-        {
-            myCar.gas = true;
-            myCar.workOfEngine();
-        }
-        else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Z))
-        {
-            myCar.brake = true;
-            myCar.workOfEngine();
-        }
-        else
-        {
-            myCar.workOfEngine();
-        }
         text.setString(std::to_string(myCar.currentEngineRpm));
         window.clear();
         revLine.setPosition(300,300);
