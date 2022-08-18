@@ -1,5 +1,6 @@
 #include "car.hpp"
 
+/*
 void Car::updateStateOfSteeringSystem()
 {
     if(Car::steerLeft)
@@ -33,8 +34,41 @@ void Car::updateStateOfSteeringSystem()
     }
     
 }
+*/
+void Car::steering(enum steeringDirections direction)
+{
+    switch(direction)
+    {
+        case LEFT:
+            if(Car::steeringWheelPosition < 540)
+            {
+                Car::steeringWheelPosition += Car::dsteer;
+            }
+            break;
+        case RIGHT:
+            if(Car::steeringWheelPosition > -540)
+            {
+                Car::steeringWheelPosition -= Car::dsteer;
+            }
+            break;
+        case NONE:
+            if(Car::steeringWheelPosition > 0)
+            {
+                Car::steeringWheelPosition -= 10;
+            }
+            else if(Car::steeringWheelPosition < 0)
+            {
+                Car::steeringWheelPosition += 10;
+            }
+            else
+            {
+                Car::steeringWheelPosition = Car::steeringWheelPosition;
+            }
+            break;
+    }
+}
 
-void Car::driveSystem()
+void Car::updateStateOfEngine()
 {
     if(Car::gas)
     {
@@ -71,7 +105,7 @@ void Car::driveSystem()
     }
 }
 
-void Car::shiftGear()
+void Car::updateStateOfGerbox()
 {
     if(Car::shiftUp and !Car::prevShift)
     {
@@ -91,3 +125,5 @@ void Car::shiftGear()
     }
     Car::prevShift = Car::shiftUp or Car::shiftDown;
 }
+
+

@@ -42,8 +42,8 @@ int main()
                 window.close();
             }
         }
-        myCar.steerLeft = false;
-        myCar.steerRight = false;
+        //myCar.steerLeft = false;
+        //myCar.steerRight = false;
         myCar.gas = false;
         myCar.brake = false;
         myCar.handbrake = false;
@@ -52,12 +52,17 @@ int main()
         myController.readInput();
         if(myController.steerLeft)
         {
-            myCar.steerLeft = true;
+            myCar.steering(LEFT);
         }
         else if(myController.steerRight)
         {
-            myCar.steerRight = true;
+            myCar.steering(RIGHT);
         }
+        else
+        {
+            myCar.steering(NONE);
+        }
+
         if(myController.gasPedal)
         {
             myCar.gas = true;
@@ -78,9 +83,9 @@ int main()
         {
             myCar.handbrake = true;
         }
-        myCar.steering();
-        myCar.workOfEngine();
-        myCar.shiftGear();
+        //myCar.steering();
+        //myCar.workOfEngine();
+        //myCar.shiftGear();
 
 
         
