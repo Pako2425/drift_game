@@ -44,8 +44,8 @@ int main()
         }
         //myCar.steerLeft = false;
         //myCar.steerRight = false;
-        myCar.gas = false;
-        myCar.brake = false;
+        //myCar.gas = false;
+        //myCar.brake = false;
         myCar.handbrake = false;
         myCar.shiftUp = false;
         myCar.shiftDown = false;
@@ -60,17 +60,22 @@ int main()
         }
         else
         {
-            myCar.steering(NONE);
+            myCar.steering(NONE_DIRECTION);
         }
 
         if(myController.gasPedal)
         {
-            myCar.gas = true;
+            myCar.pressPedal(GAS);
         }
         else if(myController.brakePedal)
         {
-            myCar.brake = true;
+            myCar.pressPedal(BRAKE);
         }
+        else
+        {
+            myCar.pressPedal(NONE_PEDAL);
+        }
+        
         if(myController.shiftUp)
         {
             myCar.shiftUp = true;

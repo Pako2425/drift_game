@@ -1,40 +1,5 @@
 #include "car.hpp"
 
-/*
-void Car::updateStateOfSteeringSystem()
-{
-    if(Car::steerLeft)
-    {
-        if(Car::steeringWheelPosition < 540)
-        {
-            Car::steeringWheelPosition += Car::dsteer;
-        }
-    }
-    else if(Car::steerRight)
-    {
-        if(Car::steeringWheelPosition > -540)
-        {
-            Car::steeringWheelPosition -= Car::dsteer;
-        }
-    }
-    else
-    {
-        if(Car::steeringWheelPosition > 0)
-        {
-            Car::steeringWheelPosition -= 10;
-        }
-        else if(Car::steeringWheelPosition < 0)
-        {
-            Car:;steeringWheelPosition += 10;
-        }
-        else
-        {
-            Car::steeringWheelPosition = Car::steeringWheelPosition;
-        }
-    }
-    
-}
-*/
 void Car::steering(enum steeringDirections direction)
 {
     switch(direction)
@@ -51,7 +16,7 @@ void Car::steering(enum steeringDirections direction)
                 Car::steeringWheelPosition -= Car::dsteer;
             }
             break;
-        case NONE:
+        default:
             if(Car::steeringWheelPosition > 0)
             {
                 Car::steeringWheelPosition -= 10;
@@ -68,40 +33,39 @@ void Car::steering(enum steeringDirections direction)
     }
 }
 
-void Car::updateStateOfEngine()
+void Car::pressPedal(enum carPedals pressedPedal)
 {
-    if(Car::gas)
+    switch(pressedPedal)
     {
-        if(Car::currentEngineRpm < Car::maxEngineRpm)
-        {    
-            Car::currentEngineRpm += 50;
-        }
-        else
-        {
-            Car::currentEngineRpm = Car::maxEngineRpm;
-        }
-    }
-    else if(Car::brake)
-    {
-        if(Car::currentEngineRpm > Car::idleEngineRpm)
-        {
-            Car::currentEngineRpm -= 120;
-        }
-        else
-        {
-            Car::currentEngineRpm = Car::idleEngineRpm;
-        }
-    }
-    else
-    {
-        if(Car::currentEngineRpm > Car::idleEngineRpm)
-        {
-            Car::currentEngineRpm -= 30;
-        }
-        else
-        {
-            Car::currentEngineRpm = Car::idleEngineRpm;
-        }
+        case GAS:
+            if(Car::currentEngineRpm < Car::maxEngineRpm)
+            {    
+                Car::currentEngineRpm += 50;
+            }
+            else
+            {
+                Car::currentEngineRpm = Car::maxEngineRpm;
+            }
+            break;
+        case BRAKE:
+            if(Car::currentEngineRpm > Car::idleEngineRpm)
+            {
+                Car::currentEngineRpm -= 120;
+            }
+            else
+            {
+                Car::currentEngineRpm = Car::idleEngineRpm;
+            }
+            break;
+        default:
+            if(Car::currentEngineRpm > Car::idleEngineRpm)
+            {
+                Car::currentEngineRpm -= 30;
+            }
+            else
+            {
+                Car::currentEngineRpm = Car::idleEngineRpm;
+            }
     }
 }
 

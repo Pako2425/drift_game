@@ -1,4 +1,5 @@
-enum steeringDirections {NONE, LEFT, RIGHT};
+enum steeringDirections {NONE_DIRECTION, LEFT, RIGHT};
+enum carPedals {NONE_PEDAL, GAS, BRAKE};
 
 class Car
 {
@@ -7,8 +8,8 @@ class Car
     //bool steerRight;
     int steeringWheelPosition;   //-540-540
     unsigned int dsteer;
-    bool gas;
-    bool brake;
+    //bool gas;
+    //bool brake;
     bool handbrake;
     bool shiftUp;
     bool shiftDown;
@@ -43,18 +44,16 @@ class Car
     void updateStateOfDriveSystem();
 
     void steering(enum steeringDirections);
-    
+    void pressPedal(enum carPedals);
+    void pressGas();
+    void pressBrake();
     void shiftGear();
     void handBraking();
 
     Car(unsigned int xIdleCarPos, unsigned int yIdleCarPos, unsigned int idleCarAngle)
     {
-        //steerLeft = false;
-        //steerRight = false;
         steeringWheelPosition = 0;
         dsteer = 10;
-        gas = false;
-        brake = false;
         handbrake = false;
         shiftUp = false;
         shiftDown = false;
