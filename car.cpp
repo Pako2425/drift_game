@@ -1,29 +1,30 @@
 #include "car.hpp"
+#include <cmath>
 
-void Car::steering(enum steeringDirections direction)
+void Car::steer(enum steeringDirections direction, unsigned int dSteering)
 {
     switch(direction)
     {
         case LEFT:
             if(Car::steeringWheelPosition < 540)
             {
-                Car::steeringWheelPosition += Car::dsteer;
+                Car::steeringWheelPosition += dSteering;
             }
             break;
         case RIGHT:
             if(Car::steeringWheelPosition > -540)
             {
-                Car::steeringWheelPosition -= Car::dsteer;
+                Car::steeringWheelPosition -= dSteering;
             }
             break;
         default:
             if(Car::steeringWheelPosition > 0)
             {
-                Car::steeringWheelPosition -= 10;
+                Car::steeringWheelPosition -= dSteering;
             }
             else if(Car::steeringWheelPosition < 0)
             {
-                Car::steeringWheelPosition += 10;
+                Car::steeringWheelPosition += dSteering;
             }
             else
             {
@@ -33,74 +34,45 @@ void Car::steering(enum steeringDirections direction)
     }
 }
 
-void Car::pressPedal(enum carPedals pressedPedal)
+void Car::accelerate()
 {
-    switch(pressedPedal)
+    Car::speed = Car::speed + (Car::maxSpeed - Car::speed)*0.002;
+}
+
+void Car::decelerate()
+{
+    if(Car::speed >= 19.44)
     {
-        case GAS:
-            if(Car::currentEngineRpm < Car::maxEngineRpm)
-            {    
-                Car::currentEngineRpm += 50;
-            }
-            else
-            {
-                Car::currentEngineRpm = Car::maxEngineRpm;
-            }
-            break;
-        case BRAKE:
-            if(Car::currentEngineRpm > Car::idleEngineRpm)
-            {
-                Car::currentEngineRpm -= 120;
-            }
-            else
-            {
-                Car::currentEngineRpm = Car::idleEngineRpm;
-            }
-            break;
-        default:
-            if(Car::currentEngineRpm > Car::idleEngineRpm)
-            {
-                Car::currentEngineRpm -= 30;
-            }
-            else
-            {
-                Car::currentEngineRpm = Car::idleEngineRpm;
-            }
+        Car::speed = Car::speed - Car::speed * 0.0011; 
+    }
+    else if(Car::speed < 19.44 && Car::speed > 0)
+    {
+        Car::speed = Car::speed - 0.021;
+    }
+    else
+    {
+        Car::speed = 0.0;
     }
 }
 
-void Car::shiftGear(enum shifterAction action)
+void Car::brake()
 {
-    switch(action)
+    if(Car::speed > 0.17)
     {
-        case SHIFT_UP:
-            if(!Car::prevShift)
-            {
-                if(Car::currentGear < 5)
-                {
-                    Car::currentGear ++;
-                }
-                Car::prevShift = true;
-            }
-            
-            break;
-        case SHIFT_DOWN:
-            if(!Car::prevShift)
-            {
-                if(Car::currentGear > 0)
-                {
-                    Car::currentGear --;
-                }
-                Car::prevShift = true;
-            }
-            break;
-        default:
-            Car::currentGear = Car::currentGear;
-            Car::prevShift = false;
+        Car::speed = Car::speed - 0.17;
+    }
+    else
+    {
+        Car::speed = 0.0;
     }
 }
 
-void Car::calculateWheelsAngleVelocity()
+void Car::move()
 {
-    Car::wheelsAngleVelocity = (static_cast<float>(Car::currentEngineRpm) / (Car::gearRatio[Car::currentGear] * Car::finalDrive));
+    int dangle = Car::steeringWheelPosition*Car::speed;
+    Car::angle = Car::angle + dangle;
+    int dxPos = int( round(Car::speed*cos(1.0*Car::angle)) );
+    int dyPos = int( round(Car::speed*sin(1.0*Car::angle)) );
+    Car::xPos += dxPos;
+    Car::yPos += dyPos;
 }

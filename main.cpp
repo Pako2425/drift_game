@@ -1,4 +1,5 @@
 #include <SFML/Graphics.hpp>
+#include <iostream>
 #include <cmath>
 #include <string>
 #include "controller.hpp"
@@ -9,10 +10,8 @@ int main()
     Controller myController;
     Car myCar(50, 50, 0);
     sf::RenderWindow window(sf::VideoMode(800,600), "game_window");
-    //sf::RectangleShape nissan(sf::Vector2f(myCar.xCarPos,myCar.yCarPos));
-    sf::RectangleShape revLine(sf::Vector2f(150,5));
-    //nissan.setFillColor(sf::Color::Green);
-    revLine.setFillColor(sf::Color::Red);
+    sf::RectangleShape nissan(sf::Vector2f(myCar.xPos,myCar.yPos));
+    nissan.setFillColor(sf::Color::Green);
     window.setFramerateLimit(60);
     sf::Font font;
     sf::Text text;
@@ -31,7 +30,7 @@ int main()
 
 
 
-
+    unsigned int carSteeringStep = 10;
     while(window.isOpen())
     {
         sf::Event event;
@@ -42,74 +41,45 @@ int main()
                 window.close();
             }
         }
-        myCar.handbrake = false;
         myController.readInput();
         if(myController.steerLeft)
         {
-            myCar.steering(LEFT);
+            myCar.steer(LEFT, carSteeringStep);
         }
         else if(myController.steerRight)
         {
-            myCar.steering(RIGHT);
+            myCar.steer(RIGHT, carSteeringStep);
         }
         else
         {
-            myCar.steering(NONE_DIRECTION);
+            myCar.steer(STRAIGHT, carSteeringStep);
         }
 
         if(myController.gasPedal)
         {
-            myCar.pressPedal(GAS);
+            myCar.accelerate();
         }
         else if(myController.brakePedal)
         {
-            myCar.pressPedal(BRAKE);
+            myCar.brake();
         }
         else
         {
-            myCar.pressPedal(NONE_PEDAL);
+            myCar.decelerate();
         }
-
-        if(myController.shiftUp)
-        {
-            myCar.shiftGear(SHIFT_UP);
-            myCar.currentEngineRpm = static_cast<int>(myCar.wheelsAngleVelocity * myCar.gearRatio[myCar.currentGear] * myCar.finalDrive);
-        }
-        else if(myController.shiftDown)
-        {
-            myCar.shiftGear(SHIFT_DOWN);
-            myCar.currentEngineRpm = static_cast<int>(myCar.wheelsAngleVelocity * myCar.gearRatio[myCar.currentGear] * myCar.finalDrive);
-        }
-        else
-        {
-            myCar.prevShift = false;
-        }
-        if(myController.handBrake)
-        {
-            myCar.handbrake = true;
-        }
-        myCar.calculateWheelsAngleVelocity();
-
-
-
+        //myCar.move();
 
 
         text.setString(std::to_string(myCar.steeringWheelPosition));
-        text2.setString(std::to_string(myCar.currentGear));
+        text2.setString(std::to_string(myCar.speed*3600/1000));
         window.clear();
-        revLine.setPosition(300,300);
-        revLine.setRotation(110.0 + (float(myCar.currentEngineRpm) / 31.0));
-        window.draw(revLine);
-        //myCar.setPosition(myCarx, myCary);
-        //myCar.setRotation(carAngle);
-        //window.draw(myCar);
+        //nissan.setPosition(myCar.xPos, myCar.yPos);
+        //nissan.setRotation(myCar.angle);
+        //window.draw(nissan);
         text.setPosition(100, 50);
         text2.setPosition(10,10);
         window.draw(text);
-        if(true)
-        {
-           window.draw(text2); 
-        }
+        window.draw(text2); 
         window.display();
     }
 
