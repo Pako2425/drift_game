@@ -27,10 +27,8 @@ int main()
         return EXIT_FAILURE;
     }
 
-
-
-
-    unsigned int carSteeringStep = 10;
+    double carSteeringStep = 0.5;
+    myCar.dSteerAngle = carSteeringStep;
     while(window.isOpen())
     {
         sf::Event event;
@@ -44,15 +42,18 @@ int main()
         myController.readInput();
         if(myController.steerLeft)
         {
-            myCar.steer(LEFT, carSteeringStep);
+            //myCar.steer(LEFT, carSteeringStep);
+            myCar.steerLeft();
         }
         else if(myController.steerRight)
         {
-            myCar.steer(RIGHT, carSteeringStep);
+            //myCar.steer(RIGHT, carSteeringStep);
+            myCar.steerRight();
         }
         else
         {
-            myCar.steer(STRAIGHT, carSteeringStep);
+            //myCar.steer(STRAIGHT, carSteeringStep);
+            myCar.steerReturning();
         }
 
         if(myController.gasPedal)
@@ -70,7 +71,7 @@ int main()
         //myCar.move();
 
 
-        text.setString(std::to_string(myCar.steeringWheelPosition));
+        text.setString(std::to_string(myCar.steerAngle));
         text2.setString(std::to_string(myCar.speed*3600/1000));
         window.clear();
         //nissan.setPosition(myCar.xPos, myCar.yPos);

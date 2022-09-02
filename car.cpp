@@ -1,39 +1,6 @@
 #include "car.hpp"
 #include <cmath>
 
-void Car::steer(enum steeringDirections direction, unsigned int dSteering)
-{
-    switch(direction)
-    {
-        case LEFT:
-            if(Car::steeringWheelPosition < 540)
-            {
-                Car::steeringWheelPosition += dSteering;
-            }
-            break;
-        case RIGHT:
-            if(Car::steeringWheelPosition > -540)
-            {
-                Car::steeringWheelPosition -= dSteering;
-            }
-            break;
-        default:
-            if(Car::steeringWheelPosition > 0)
-            {
-                Car::steeringWheelPosition -= dSteering;
-            }
-            else if(Car::steeringWheelPosition < 0)
-            {
-                Car::steeringWheelPosition += dSteering;
-            }
-            else
-            {
-                Car::steeringWheelPosition = Car::steeringWheelPosition;
-            }
-            break;
-    }
-}
-
 void Car::accelerate()
 {
     Car::speed = Car::speed + (Car::maxSpeed - Car::speed)*0.002;
@@ -67,9 +34,41 @@ void Car::brake()
     }
 }
 
+void Car::steerRight()
+{
+    if(Car::steerAngle < Car::maxRaceSteerAngle)
+    {
+        Car::steerAngle += Car::dSteerAngle;
+    }
+}
+
+void Car::steerLeft()
+{
+    if(Car::steerAngle > -Car::maxRaceSteerAngle)
+    {
+        Car::steerAngle -= Car::dSteerAngle;
+    }
+}
+
+void Car::steerReturning()
+{
+    if(Car::steerAngle > 0)
+    {
+        Car::steerAngle -= Car::dSteerAngle;
+    }
+    else if(Car::steerAngle < 0)
+    {
+        Car::steerAngle += Car::dSteerAngle;
+    }
+    else
+    {
+        Car::steerAngle = Car::steerAngle;
+    }
+}
+
 void Car::move()
 {
-    int dangle = Car::steeringWheelPosition*Car::speed;
+    int dangle = Car::steerAngle*Car::speed;
     Car::angle = Car::angle + dangle;
     int dxPos = int( round(Car::speed*cos(1.0*Car::angle)) );
     int dyPos = int( round(Car::speed*sin(1.0*Car::angle)) );
