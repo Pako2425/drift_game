@@ -1,3 +1,8 @@
+#pragma once
+#include <SFML/Graphics.hpp>
+#include <iostream>
+
+
 class Car
 {
     public:
@@ -11,7 +16,8 @@ class Car
     double speed;     //in m/s
     double maxSpeed;
     unsigned int angle;
-    float tireSlip;    //<0 tire have grip, >0 tire have no grip
+    std::string myCarTexturePath;
+    sf::Texture myCarTexture;
 
     void accelerate();
     void decelerate();
@@ -20,8 +26,9 @@ class Car
     void steerRight();
     void steerReturning();
     void move();
+    void readCarTexture();
 
-    Car(unsigned int idleXPos, unsigned int idleYPos, unsigned int idleAngle)
+    Car(unsigned int idleXPos, unsigned int idleYPos, unsigned int idleAngle, std::string texturePath)
     {
         steerAngle = 0.0;
         dSteerAngle = 0.0;
@@ -33,6 +40,7 @@ class Car
         xPos = idleXPos;
         yPos = idleYPos;
         angle = idleAngle;
-        
+        myCarTexturePath = texturePath;
+        readCarTexture();
     }
 };

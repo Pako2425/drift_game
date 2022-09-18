@@ -75,3 +75,8 @@ void Car::move()
     Car::xPos += dxPos;
     Car::yPos += dyPos;
 }
+
+void Car::readCarTexture()
+{
+    Car::myCarTexture.loadFromFile(Car::myCarTexturePath);
+}
