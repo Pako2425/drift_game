@@ -4,52 +4,47 @@
 #include <string>
 #include "controller.hpp"
 #include "car.hpp"
-
-void readMap();
-void readCar();
+#include "map.hpp"
 
 int main()
 {
-    Controller myController;
-    sf::RenderWindow window(sf::VideoMode(800,600), "game_window");
+    sf::RenderWindow window(sf::VideoMode(1280,960), "game_window");
     window.setFramerateLimit(60);
-    sf::Font font;
-    sf::Text text;
-    sf::Text text2;
-    text.setFont(font);
-    text.setCharacterSize(50);
-    text2.setFont(font);
-    text2.setCharacterSize(50);
-    text.setFillColor(sf::Color::Green);
-    text2.setFillColor(sf::Color::Yellow);
-    Car myCar(50, 50, 0, "images/cars/mazda_rx7.png");
-
-
-    //sf::Texture mazda_rx7;
-    sf::Texture track1;
-    if(track1.loadFromFile("images/tracks/track1.png"))
-    {
-        printf("track loaded sucessfully");
-    }
-
-
+    //sf::Font font;
+    //sf::Text text;
+    //sf::Text text2;
+    //text.setFont(font);
+    //text.setCharacterSize(50);
+    //text2.setFont(font);
+    //text2.setCharacterSize(50);
+    //text.setFillColor(sf::Color::Green);
+    //text2.setFillColor(sf::Color::Yellow);
+    //if(!font.loadFromFile("font_files/atwriter.ttf"))
+    //{
+    //    return EXIT_FAILURE;
+    //}
+    Controller myController;
+    Car myCar(360, 400, 0, "images/cars/mazda_rx7.png");
+    Map myMap("images/tracks/track1.png");
     sf::Sprite spMazda_rx7;
-    sf::Sprite spTrack1;
-    spMazda_rx7.setPosition(10.0,50.0);
-    spMazda_rx7.setScale(0.3, 0.3);
+    sf::Transform mapTransform;
+    spMazda_rx7.setPosition(myCar.xPos*1.0, myCar.yPos*1.0);
+    spMazda_rx7.setScale(0.25, 0.25);
     spMazda_rx7.setTexture(myCar.myCarTexture);
-    spMazda_rx7.move(100,0);
-    //spTrack1.setPosition(0.0, 0.0);
-    //spTrack1.setScale(1.0, 1.0);
-    //spTrack1.setTexture(track1);
+    sf::Sprite spTrack1;
+    spTrack1.setPosition(0.0, 0.0);
+    spTrack1.setScale(1.3, 1.3);
+    spTrack1.setTexture(myMap.myMapTexture);
 
-    if(!font.loadFromFile("font_files/atwriter.ttf"))
-    {
-        return EXIT_FAILURE;
-    }
-
-    double carSteeringStep = 0.5;
-    myCar.dSteerAngle = carSteeringStep;
+    double dt = 1.0/60.0;
+    double dS = 0.0;
+    double R;
+    double dx;
+    double dy;
+    double dAlfa;
+    double dCarRotationAngle;
+    double Beta;
+    
     while(window.isOpen())
     {
         sf::Event event;
@@ -64,12 +59,10 @@ int main()
         if(myController.steerLeft)
         {
             myCar.steerLeft();
-            spTrack1.move(10, 0);
         }
         else if(myController.steerRight)
         {
             myCar.steerRight();
-            spTrack1.move(-10, 0);
         }
         else
         {
@@ -79,27 +72,57 @@ int main()
         if(myController.gasPedal)
         {
             myCar.accelerate();
-            spTrack1.move(0, 10);
         }
         else if(myController.brakePedal)
         {
             myCar.brake();
-            spTrack1.move(0, -10);
         }
         else
         {
             myCar.decelerate();
         }
-        //myCar.move();
 
-        text.setString(std::to_string(myCar.steerAngle));
-        text2.setString(std::to_string(myCar.speed*3600/1000));
+        dS = myCar.speed*dt;
+        R = 0;
+        Beta = 0;
+        dAlfa = 0;
+        dx = 0;
+        dy = dS;
+        dCarRotationAngle = 0;
+        if(myCar.steerAngle != 0)
+        {
+            Beta = 90-myCar.steerAngle;
+            R = myCar.length*tan(Beta*M_PI/180);
+            dAlfa = dS/R;
+            dCarRotationAngle = dAlfa*180/M_PI;
+            dx = R*(1-cos(dAlfa));
+            dy = R*sin(dAlfa); 
+        }
+        std::cout<<dCarRotationAngle<<dx<<" "<<dy<<std::endl;
+
+        if(myCar.steerAngle >= 0)
+        {
+            //transform.translate(0.0, 10.0);
+            //spTrack1.move(0.0, 0.001*dy);
+            //transform.rotate(-dAlfa, myCar.xPos, myCar.yPos);
+            //spTrack1.rotate(dAlfa);
+        }
+        else
+        {
+            //spTrack1.move(0.0, 0.0001*dy);
+            //transform.rotate(dAlfa, myCar.xPos, myCar.yPos);
+            //spTrack1.rotate(dAlfa);
+        }
+        
+        //text.setString(std::to_string(myCar.steerAngle));
+        //text2.setString(std::to_string(myCar.speed*3600/1000));
+        //text.setPosition(10,50);
+        //text2.setPosition(10,10);
         window.clear();
-        text.setPosition(10,50);
-        text2.setPosition(10,10);
-        window.draw(text);
-        window.draw(text2);
-        window.draw(spMazda_rx7); 
+        //window.draw(text);
+        //window.draw(text2); 
+        window.draw(spTrack1, mapTransform);
+        window.draw(spMazda_rx7);
         window.display();
     }
     return 0;
