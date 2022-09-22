@@ -39,7 +39,7 @@ class Car
     Car(unsigned int idleXPos, unsigned int idleYPos, unsigned int idleAngle, std::string idleTexturePath)
     {
         steerAngle = 0.0;
-        dSteerAngle = 0.5;
+        dSteerAngle = 0.4;
         maxRaceSteerAngle = 30.0;
         steeringWheelPosition = 0;
         speed = 0.0;
