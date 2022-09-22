@@ -66,17 +66,43 @@ void Car::steerReturning()
     }
 }
 
-void Car::move()
+void Car::setTexturePath(std::string texturePath)   //function responsible for choose right texture
 {
-    int dangle = Car::steerAngle*Car::speed;
-    Car::angle = Car::angle + dangle;
-    int dxPos = int( round(Car::speed*cos(1.0*Car::angle)) );
-    int dyPos = int( round(Car::speed*sin(1.0*Car::angle)) );
-    Car::xPos += dxPos;
-    Car::yPos += dyPos;
+
 }
 
-void Car::readCarTexture()
+void Car::loadTexture()
 {
-    Car::myCarTexture.loadFromFile(Car::myCarTexturePath);
+    Car::texture.loadFromFile(Car::texturePath);
+}
+
+void Car::setTexture()
+{
+    Car::sp.setTexture(Car::texture);
+}
+
+void Car::getCenterOfTexture()
+{
+    Car::center_x = Car::texture.getSize().x/2.0;
+    Car::center_y = Car::texture.getSize().y/2.0;
+}
+
+void Car::setOrigin(double x, double y)
+{
+    Car::sp.setOrigin(x, y);
+}
+
+void Car::setScale(double scale)
+{
+    Car::sp.setScale(scale, scale);
+}
+
+void Car::setPosition(double x, double y)
+{
+    Car::sp.setPosition(x, y);
+}
+
+void Car::setRotation(double angle)
+{
+    Car::sp.setRotation(angle);
 }

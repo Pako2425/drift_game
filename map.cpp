@@ -1,6 +1,11 @@
 #include "map.hpp"
 
-void Map::readMapTexture()
+void Map::loadTexture()
 {
-    Map::myMapTexture.loadFromFile(Map::myMapTexturePath);
+    Map::texture.loadFromFile(Map::texturePath);
+}
+
+void Map::setOrigin(double x, double y)
+{
+    Map::sp.setOrigin(x, y);
 }

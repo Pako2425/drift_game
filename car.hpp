@@ -8,7 +8,6 @@ class Car
     double steerAngle;     //-30 - 30
     double dSteerAngle;
     double maxRaceSteerAngle;
-    double maxDriftSteerAngle;
     int steeringWheelPosition;   //-540-540
     unsigned int xPos;
     unsigned int yPos;
@@ -16,8 +15,11 @@ class Car
     double maxSpeed;
     unsigned int angle;
     double length;
-    std::string myCarTexturePath;
-    sf::Texture myCarTexture;
+    double center_x;
+    double center_y;
+    std::string texturePath;
+    sf::Texture texture;
+    sf::Sprite sp;
 
     void accelerate();
     void decelerate();
@@ -25,23 +27,29 @@ class Car
     void steerLeft();
     void steerRight();
     void steerReturning();
-    void move();
-    void readCarTexture();
+    void setTexturePath(std::string);
+    void loadTexture();
+    void setTexture();
+    void getCenterOfTexture();
+    void setOrigin(double, double);
+    void setScale(double);
+    void setPosition(double, double);
+    void setRotation(double);
 
-    Car(unsigned int idleXPos, unsigned int idleYPos, unsigned int idleAngle, std::string texturePath)
+    Car(unsigned int idleXPos, unsigned int idleYPos, unsigned int idleAngle, std::string idleTexturePath)
     {
         steerAngle = 0.0;
         dSteerAngle = 0.5;
         maxRaceSteerAngle = 30.0;
-        maxDriftSteerAngle = 45.0;
         steeringWheelPosition = 0;
         speed = 0.0;
         maxSpeed = 67.0;
         xPos = idleXPos;
         yPos = idleYPos;
         angle = idleAngle;
-        myCarTexturePath = texturePath;
+        texturePath = idleTexturePath;
         length = 4.3;
-        readCarTexture();
+        loadTexture();
+        //getCenterOfTexture();
     }
 };

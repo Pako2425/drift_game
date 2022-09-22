@@ -8,14 +8,17 @@ class Map
     public:
     int xMapPos;
     int yMapPos;
-    std::string myMapTexturePath;
-    sf::Texture myMapTexture;
+    std::string texturePath;
+    sf::Texture texture;
+    sf::Sprite sp;
 
-    void readMapTexture();
+    void loadTexture();
+    void setOrigin(double, double);
+
     
-    Map(std::string texturePath)
+    Map(std::string idleTexturePath)
     {
-        myMapTexturePath = texturePath;
-        readMapTexture();
+        texturePath = idleTexturePath;
+        loadTexture();
     }
 };
