@@ -2,12 +2,11 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 
-
 class Map
 {
     public:
-    int xMapPos;
-    int yMapPos;
+    double xPos;
+    double yPos;
     double angle;
     std::string texturePath;
     sf::Texture texture;
@@ -18,12 +17,9 @@ class Map
     void setTexture();
     void setScale(double);
     void setOrigin(double, double);
-    
     void setPosition(double, double);
     void setRotation(double);
-    
 
-    
     Map(std::string idleTexturePath)
     {
         texturePath = idleTexturePath;
