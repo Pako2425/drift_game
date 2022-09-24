@@ -9,11 +9,11 @@ class Car
     double dSteerAngle;
     double maxRaceSteerAngle;
     int steeringWheelPosition;   //-540-540
-    unsigned int xPos;
-    unsigned int yPos;
+    double xPos;
+    double yPos;
     double speed;     //in m/s
     double maxSpeed;
-    unsigned int angle;
+    double angle;
     double length;
     double center_x;
     double center_y;
@@ -36,7 +36,7 @@ class Car
     void setPosition(double, double);
     void setRotation(double);
 
-    Car(unsigned int idleXPos, unsigned int idleYPos, unsigned int idleAngle, std::string idleTexturePath)
+    Car(double idleXPos, double idleYPos, double idleAngle, std::string idleTexturePath)
     {
         steerAngle = 0.0;
         dSteerAngle = 0.5;
@@ -50,6 +50,11 @@ class Car
         texturePath = idleTexturePath;
         length = 4.3;
         loadTexture();
-        //getCenterOfTexture();
+        setTexture();
+        setScale(0.15);
+        getCenterOfTexture();
+        setOrigin(center_x, center_y*1.7);
+        setPosition(xPos*1.0, yPos*1.0);
+        setRotation(0.0);
     }
 };

@@ -1,74 +1,86 @@
 #include "driving_physic.hpp"
 #include <cmath>
 
-double Driving_Physic::calculateRadiusOfTurningCircle(double steerAngle, double carLength)
+void Driving_Physic::updateCarDataBase(Car *anyCar)
+{
+    Driving_Physic::carSpeed = anyCar->speed;
+    Driving_Physic::carLength = anyCar->length;
+    Driving_Physic::carSteerAngle = anyCar->steerAngle;
+    Driving_Physic::carAngle = anyCar->angle;
+}
+
+void Driving_Physic::updateMapDataBase(Map *anyMap)
+{
+    Driving_Physic::xMapPos = anyMap->xPos;
+    Driving_Physic::yMapPos = anyMap->yPos;
+    Driving_Physic::mapAngle = anyMap->angle;
+}
+
+void Driving_Physic::calculateRadiusOfCarTurningCircle()
 {
     double Beta = 0.0;
-    double radius = 0.0;
-    if(steerAngle < -0.6)
+    if(Driving_Physic::carSteerAngle < -0.6)
     {
-        Beta = 90.0+steerAngle;
-        radius = carLength*tan(Beta*M_PI/180);
+        Beta = 90.0+Driving_Physic::carSteerAngle;
+        Driving_Physic::turningRadius = Driving_Physic::carLength*tan(Beta*M_PI/180);
     }
-    else if(steerAngle > 0.6)
+    else if(Driving_Physic::carSteerAngle > 0.6)
     {
-        Beta = 90.0-steerAngle;
-        radius = carLength*tan(Beta*M_PI/180);
+        Beta = 90.0-Driving_Physic::carSteerAngle;
+        Driving_Physic::turningRadius = Driving_Physic::carLength*tan(Beta*M_PI/180);
     }
     else
     {
-        radius = -1.0;
+        Driving_Physic::turningRadius = -1.0;
     }
-    
-    return radius;
 }
 
-double Driving_Physic::calculateCarRotationAngle(double steerAngle, double carSpeed, double radiusOfTurningCircle)
+void Driving_Physic::calculateCarRotationAngle()
 {
     double dAlfa = 0.0;
-    double dCarRotationAngle = 0.0;
-    dAlfa = carSpeed*Driving_Physic::dt/radiusOfTurningCircle;
-    dCarRotationAngle = dAlfa*180/M_PI;
-
-    return dCarRotationAngle;
-}
-
-double Driving_Physic::calculateNewMapAngle(double mapAngle, double steerAngle, double dCarRotationAngle)
-{
-    double newMapAngle;
-    if(steerAngle < -0.6)
+    if(Driving_Physic::turningRadius >=0)
     {
-        newMapAngle = mapAngle + dCarRotationAngle;
-    }
-    else if(steerAngle > 0.6)
-    {
-        newMapAngle = mapAngle - dCarRotationAngle;
+        dAlfa = Driving_Physic::carSpeed*Driving_Physic::dt/Driving_Physic::turningRadius;
+        Driving_Physic::dCarRotationAngle = dAlfa*180/M_PI;
     }
     else
     {
-        newMapAngle = mapAngle;
+        Driving_Physic::dCarRotationAngle = 0.0;
     }
-    return newMapAngle;
+    
 }
 
-double Driving_Physic::calculateNewMapPosition(double mapAngle, double xMapPos, double yMapPos, double carSpeed)
+void Driving_Physic::calculateNewMapAngle()
 {
-    double new_xMapPos;
-    double new_yMapPos;
-    new_xMapPos = xMapPos - 12.0*carSpeed*Driving_Physic::dt*sin(mapAngle*M_PI/180);
-    new_yMapPos = yMapPos - 12.0*carSpeed*Driving_Physic::dt*cos(mapAngle*M_PI/180);
-    return (new_xMapPos, new_yMapPos);
+    if(Driving_Physic::carSteerAngle < -0.6)
+    {
+        Driving_Physic::new_MapAngle = Driving_Physic::mapAngle + Driving_Physic::dCarRotationAngle;
+    }
+    else if(Driving_Physic::carSteerAngle > 0.6)
+    {
+         Driving_Physic::new_MapAngle = Driving_Physic::mapAngle - Driving_Physic::dCarRotationAngle;
+    }
+    else
+    {
+        Driving_Physic::new_MapAngle = Driving_Physic::mapAngle;
+    }
 }
 
-void Driving_Physic::moveMap(Car *ExampleCar, Map *ExampleMap)
+void Driving_Physic::calculateNewMapPosition()
 {
-    double turningRadius;
-    double dCarRotationAngle;
-    double mapAngle;
-    turningRadius = Driving_Physic::calculateRadiusOfTurningCircle(ExampleCar->steerAngle, ExampleCar->length);
-    dCarRotationAngle = Driving_Physic::calculateCarRotationAngle(ExampleCar->steerAngle, ExampleCar->speed, turningRadius);
-    mapAngle = Driving_Physic::calculateNewMapAngle(ExampleMap->angle, ExampleCar->steerAngle, dCarRotationAngle);
-    (ExampleMap->xPos, ExampleMap->yPos) = Driving_Physic::calculateNewMapPosition(ExampleMap->angle, ExampleMap->xPos, ExampleMap->yPos, ExampleCar->speed);
+    Driving_Physic::new_xMapPos = Driving_Physic::xMapPos - 12.0*Driving_Physic::carSpeed*Driving_Physic::dt*sin(Driving_Physic::mapAngle*M_PI/180);
+    Driving_Physic::new_yMapPos = Driving_Physic::yMapPos - 12.0*Driving_Physic::carSpeed*Driving_Physic::dt*cos(Driving_Physic::mapAngle*M_PI/180);
+}
+
+void Driving_Physic::moveMap(Map *ExampleMap)
+{
+    Driving_Physic::calculateRadiusOfCarTurningCircle();
+    Driving_Physic::calculateCarRotationAngle();
+    Driving_Physic::calculateNewMapAngle();
+    Driving_Physic::calculateNewMapPosition();
+    ExampleMap->xPos = Driving_Physic::new_xMapPos;
+    ExampleMap->yPos = Driving_Physic::new_yMapPos;
+    ExampleMap->angle = Driving_Physic::new_MapAngle;
     ExampleMap->setOrigin(ExampleMap->xPos, ExampleMap->yPos);
     ExampleMap->setPosition(640.0, 480.0);
     ExampleMap->setRotation(ExampleMap->angle);
