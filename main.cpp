@@ -25,7 +25,7 @@ int main()
     //    return EXIT_FAILURE;
     //}
     Controller myController;
-    Car Mazda_rx7(640, 480, 0, "images/cars/mazda_rx7.png");
+    Car Mazda_rx7(640, 480, 0, "images/cars/mazda_rx7_left30.png");
     Map Track1(4000.0, 200.0, -90.0, "images/tracks/track1.png");
     Driving_Physic myPhysic;
     text.setString(std::to_string(Mazda_rx7.steerAngle));
@@ -70,6 +70,10 @@ int main()
         }
         myPhysic.updateCarDataBase(&Mazda_rx7);
         myPhysic.updateMapDataBase(&Track1);
+        Mazda_rx7.setPathToRightTexture();
+        std::cout<<Mazda_rx7.texturePath<<std::endl;
+        Mazda_rx7.loadTexture();
+        Mazda_rx7.setTexture();
         myPhysic.moveMap(&Track1);
         window.clear();
         window.draw(Track1.sp);

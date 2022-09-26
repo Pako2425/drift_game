@@ -27,7 +27,7 @@ class Car
     void steerLeft();
     void steerRight();
     void steerReturning();
-    void setTexturePath(std::string);
+    void setPathToRightTexture();
     void loadTexture();
     void setTexture();
     void getCenterOfTexture();
@@ -51,7 +51,7 @@ class Car
         length = 4.3;
         loadTexture();
         setTexture();
-        setScale(0.15);
+        setScale(0.20);
         getCenterOfTexture();
         setOrigin(center_x, center_y*1.7);
         setPosition(xPos*1.0, yPos*1.0);

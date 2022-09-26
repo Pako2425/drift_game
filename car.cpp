@@ -66,9 +66,39 @@ void Car::steerReturning()
     }
 }
 
-void Car::setTexturePath(std::string texturePath)   //function responsible for choose right texture
+void Car::setPathToRightTexture()   //function responsible for choose right texture
 {
-
+    std::string path_mainPart = "images/cars/";
+    std::string path;
+    int steerAngle = (int)Car::steerAngle;
+    if(steerAngle%2 != 0)
+    {
+        if(steerAngle > 0)
+        {
+            steerAngle = steerAngle-1;
+        }
+        else
+        {
+            steerAngle = steerAngle+1;
+        }
+    }
+    else
+    {
+        steerAngle = steerAngle;
+    }
+    if(steerAngle > 0)
+    {
+        path = path_mainPart.append("mazda_rx7_right" + std::to_string(steerAngle) + ".png");
+    }
+    else if(steerAngle < 0)
+    {
+        path = path_mainPart.append("mazda_rx7_left" + std::to_string(-steerAngle) + ".png");
+    }
+    else
+    {
+        path = path_mainPart.append("mazda_rx7.png");
+    }
+    Car::texturePath = path;
 }
 
 void Car::loadTexture()
