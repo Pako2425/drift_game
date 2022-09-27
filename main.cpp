@@ -1,4 +1,5 @@
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 #include <iostream>
 #include <cmath>
 #include <string>
@@ -11,6 +12,7 @@ int main()
 {
     sf::RenderWindow window(sf::VideoMode(1280,960), "game_window");
     window.setFramerateLimit(60);
+    Controller myController;
     sf::Font font;
     sf::Text text;
     sf::Text text2;
@@ -24,7 +26,6 @@ int main()
     //{
     //    return EXIT_FAILURE;
     //}
-    Controller myController;
     Car Mazda_rx7(640, 480, 0, "images/cars/mazda_rx7_left30.png");
     Map Track1(4000.0, 200.0, -90.0, "images/tracks/track1.png");
     Driving_Physic myPhysic;
@@ -32,6 +33,15 @@ int main()
     text2.setString(std::to_string(Mazda_rx7.speed*3600/1000));
     text.setPosition(10,50);
     text2.setPosition(10,10);
+    
+    sf::SoundBuffer buffer;
+    buffer.loadFromFile("sounds/mazda_rx7_acceleration.wav");
+    sf::Sound sound;
+    sound.setBuffer(buffer);
+    sound.setLoop(true);
+    sound.setPitch(0.8);
+    sound.play();
+
     while(window.isOpen())
     {
         sf::Event event;
@@ -71,7 +81,8 @@ int main()
         myPhysic.updateCarDataBase(&Mazda_rx7);
         myPhysic.updateMapDataBase(&Track1);
         Mazda_rx7.setPathToRightTexture();
-        std::cout<<Mazda_rx7.texturePath<<std::endl;
+        //std::cout<<Mazda_rx7.speed<<std::endl;
+        sound.setPitch(0.8+(Mazda_rx7.speed/30.0));
         Mazda_rx7.loadTexture();
         Mazda_rx7.setTexture();
         myPhysic.moveMap(&Track1);
