@@ -1,6 +1,7 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 #include <iostream>
+#include <cmath>
 
 class Car
 {
@@ -15,6 +16,14 @@ class Car
     double maxSpeed;
     double angle;
     double length;
+    int gear;
+    double idleRpm;
+    double currentRpm;
+    double maxRpm;
+    double gearRatios[5];
+    double rearAxleRatio;
+    double wheelsDiameter;
+    double wheelsCircumference;
     double center_x;
     double center_y;
     std::string texturePath;
@@ -49,6 +58,17 @@ class Car
         angle = idleAngle;
         texturePath = idleTexturePath;
         length = 4.3;
+        gear = 1;
+        idleRpm = 800.0;
+        maxRpm = 7800.0;
+        gearRatios[0] = 3.683;
+        gearRatios[1] = 2.263;
+        gearRatios[2] = 1.397;
+        gearRatios[3] = 1.00;
+        gearRatios[4] = 0.862;
+        rearAxleRatio = 3.9;
+        wheelsDiameter = 0.68;
+        wheelsCircumference = M_PI*wheelsDiameter;
         loadTexture();
         setTexture();
         setScale(0.20);
