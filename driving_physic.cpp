@@ -43,11 +43,13 @@ void Driving_Physic::calculateNewCarAngle(Car *anyCar)
     double carSteerAngle = anyCar->steerAngle;
     if(carSteerAngle < -0.6)
     {
-        Driving_Physic::newCarAngle = anyCar->angle + dCarRotationAngle;
+        //Driving_Physic::newCarAngle = anyCar->angle + dCarRotationAngle;
+        Driving_Physic::newCarAngle = anyCar->angle - dCarRotationAngle;
     }
     else if(carSteerAngle > 0.6)
     {
-        Driving_Physic::newCarAngle = anyCar->angle - dCarRotationAngle;
+        //Driving_Physic::newCarAngle = anyCar->angle - dCarRotationAngle;
+        Driving_Physic::newCarAngle = anyCar->angle + dCarRotationAngle;
     }
     else
     {
@@ -59,7 +61,9 @@ void Driving_Physic::calculateNewCarPosition(Car *anyCar)
 {
     double carSpeed = anyCar->speed;
     double carAngle = anyCar->angle;
-    Driving_Physic::newCarXPos = anyCar->xPos - 12.0*carSpeed*Driving_Physic::dt*sin(carAngle*M_PI/180);
+    //Driving_Physic::newCarXPos = anyCar->xPos - 12.0*carSpeed*Driving_Physic::dt*sin(carAngle*M_PI/180);
+    Driving_Physic::newCarXPos = anyCar->xPos + 12.0*carSpeed*Driving_Physic::dt*sin(carAngle*M_PI/180);
+    //Driving_Physic::newCarYPos = anyCar->yPos - 12.0*carSpeed*Driving_Physic::dt*cos(carAngle*M_PI/180);
     Driving_Physic::newCarYPos = anyCar->yPos - 12.0*carSpeed*Driving_Physic::dt*cos(carAngle*M_PI/180);
 }
 
@@ -69,4 +73,7 @@ void Driving_Physic::moveCar(Car *anyCar)
     calculateCarRotationAngle(anyCar);
     calculateNewCarAngle(anyCar);
     calculateNewCarPosition(anyCar);
+    anyCar->xPos = Driving_Physic::newCarXPos;
+    anyCar->yPos = Driving_Physic::newCarYPos;
+    anyCar->angle = Driving_Physic::newCarAngle;
 }

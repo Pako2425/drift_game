@@ -24,7 +24,7 @@ int main()
     text2.setFillColor(sf::Color::Yellow);    
     font.loadFromFile("font_files/atwriter.ttf");
     Car Mazda_rx7(640, 480, 0, "images/cars/mazda_rx7_left30.png");
-    Map Track1(4000.0, 200.0, -90.0, "images/tracks/track1.png");
+    Map Track1(0.0, 0.0, "images/tracks/track1.png");
     Driving_Physic myPhysic;
     text.setString(std::to_string(Mazda_rx7.steerAngle));
     text2.setString(std::to_string(Mazda_rx7.speed*3600/1000));
@@ -38,15 +38,6 @@ int main()
     sound.setLoop(true);
     sound.setPitch(0.8);
     sound.play();
-
-    //int car_gear = 1;
-    //double car_idleRpm = 800.0;
-    //double car_rpm;
-    //double car_maxRpm = 7800.0;
-    //double car_gearRatios[] = {3.683, 2.263, 1.397, 1.00, 0.862};
-    //double car_rear_axle_ratio = 3.9;
-    //double car_wheel_diameter = 0.68;
-    //double car_wheel_circumference = M_PI*car_wheel_diameter;
 
     //std::string hud_gauge_path = "images/hud/rpm_and_speed_gauge.png";
     //std::string hud_tip_path = "images/hud/rpm_and_speed_tip.png";
@@ -69,7 +60,7 @@ int main()
     while(window.isOpen())
     {
         sf::Event event;
-        while (window.pollEvent(event))
+        while(window.pollEvent(event))
         {
             if (event.type == sf::Event::Closed)
             {
@@ -102,9 +93,12 @@ int main()
         {
             Mazda_rx7.decelerate();
         }
+        myPhysic.moveCar(&Mazda_rx7);
         Mazda_rx7.setPathToRightTexture();
         Mazda_rx7.loadTexture();
         Mazda_rx7.setTexture();
+        Mazda_rx7.setPosition(Mazda_rx7.xPos, Mazda_rx7.yPos);
+        Mazda_rx7.setRotation(Mazda_rx7.angle);
         //////////////////////////////////////////////////////////
         //sound.setPitch(car_rpm/1400.0);
         //sound.setPitch(0.5 + car_rpm/1000.0);
@@ -121,9 +115,8 @@ int main()
         //{
         //    car_gear = car_gear;
         //}
-        //std::cout<<car_rpm<<std::endl<<car_gear<<std::endl;
+        std::cout<<"xPos: "<<Mazda_rx7.xPos<<std::endl<<"yPos: "<<Mazda_rx7.yPos<<std::endl;
         /////////////////////////////////////////////////////////
-        myPhysic.moveCar(&Mazda_rx7);
         window.clear();
         window.draw(Track1.sp);
         window.draw(Mazda_rx7.sp);
