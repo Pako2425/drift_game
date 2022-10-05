@@ -10,10 +10,10 @@ void Map::setTexture()
     Map::sp.setTexture(Map::texture);
 }
 
-void Map::setOrigin(double x, double y)
-{
-    Map::sp.setOrigin(x, y);
-}
+//void Map::setOrigin(double x, double y)
+//{
+//    Map::sp.setOrigin(x, y);
+//}
 
 void Map::setScale(double scale)
 {
@@ -25,7 +25,7 @@ void Map::setPosition(double x, double y)
     Map::sp.setPosition(x, y);
 }
 
-void Map::setRotation(double angle)
-{
-    Map::sp.setRotation(angle);
-}
+//void Map::setRotation(double angle)
+//{
+//    Map::sp.setRotation(angle);
+//}
