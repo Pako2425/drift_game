@@ -123,9 +123,7 @@ int main()
         //}
         //std::cout<<car_rpm<<std::endl<<car_gear<<std::endl;
         /////////////////////////////////////////////////////////
-        myPhysic.updateCarDataBase(&Mazda_rx7);
-        myPhysic.updateMapDataBase(&Track1);
-        myPhysic.moveMap(&Track1);
+        myPhysic.moveCar(&Mazda_rx7);
         window.clear();
         window.draw(Track1.sp);
         window.draw(Mazda_rx7.sp);

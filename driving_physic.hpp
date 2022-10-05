@@ -10,11 +10,15 @@ class Driving_Physic
     double dt;
     double turningRadius;
     double dCarRotationAngle;
+    double newCarAngle;
+    double newCarXPos;
+    double newCarYPos;
 
     void calculateRadiusOfCarTurningCircle(Car *);
     void calculateCarRotationAngle(Car *);
     void calculateNewCarAngle(Car *);
     void calculateNewCarPosition(Car *);
+    void moveCar(Car *);
 
     Driving_Physic()
     {

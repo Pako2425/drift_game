@@ -16,9 +16,7 @@ class Map
     void loadTexture();
     void setTexture();
     void setScale(double);
-    //void setOrigin(double, double);
     void setPosition(double, double);
-    //void setRotation(double);
 
     Map(double idleXPos, double idleYPos, double idleAngle, std::string idleTexturePath)
     {
@@ -29,7 +27,6 @@ class Map
         loadTexture();
         setTexture();
         setScale(1.2);
-        //setOrigin(idleXPos, idleYPos);
         setPosition(640.0, 480.0);
     }
 };
