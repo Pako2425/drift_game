@@ -7,7 +7,6 @@ class SteeringWheel
     public:
     double xPos;
     double yPos;
-    double angle;
     double x_textureCenter;
     double y_textureCenter;
     double angleOfSteeringWheel;
@@ -23,12 +22,11 @@ class SteeringWheel
     void setPosition(double, double);
     void setRotation(double);
 
-    SteeringWheel(double idleXPos, double idleYPos, double idleAngle, std::string idleTexturePath)
+    SteeringWheel(double idleXPos, double idleYPos, std::string idleTexturePath)
     {
         texturePath = idleTexturePath;
         xPos = idleXPos;
         yPos = idleYPos;
-        angle = idleAngle;
         angleOfSteeringWheel = 0.0;
         loadTexture();
         setTexture();

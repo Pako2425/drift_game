@@ -8,6 +8,7 @@
 #include "map.hpp"
 #include "driving_physic.hpp"
 #include "dashboard.hpp"
+#include "steering_wheel.hpp"
 
 void calculateCarRPM(Car *);
 void calculateCarGear(Car *);
@@ -31,6 +32,7 @@ int main()
     Map Track1(0.0, 0.0, "images/tracks/track1.png");
     Driving_Physic myPhysic;
     Dashboard playerDash(900.0, 650.0, "images/hud/rpm_and_speed_gauge.png", "images/hud/rpm_and_speed_tip.png", 0.45);
+    SteeringWheel playerStW(100, 650, "images/hud/steering_wheel.png");
     text.setString(std::to_string(Mazda_rx7.steerAngle));
     text2.setString(std::to_string(Mazda_rx7.speed*3600/1000));
     text.setPosition(10,50);
@@ -84,8 +86,10 @@ int main()
         calculateCarRPM(&Mazda_rx7);
         calculateCarGear(&Mazda_rx7);
         playerDash.readCarData(&Mazda_rx7);
+
         std::cout<<Mazda_rx7.currentRpm<<std::endl;
         playerDash.showData();
+        playerStW.setRotation(Mazda_rx7.steerAngle*15.0);
         Mazda_rx7.setPathToRightTexture();
         Mazda_rx7.loadTexture();
         Mazda_rx7.setTexture();
@@ -100,6 +104,7 @@ int main()
         window.draw(Mazda_rx7.sp);
         window.draw(playerDash.spGauge);
         window.draw(playerDash.spTip);
+        window.draw(playerStW.sp);
         /////////////////////////////////////////
         //sp_hud_steeringwheel.setRotation(Mazda_rx7.steerAngle*15.0);
         //window.draw(sp_hud_steeringwheel);
