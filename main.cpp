@@ -31,8 +31,8 @@ int main()
     Car Mazda_rx7(640, 480, 0, "images/cars/mazda_rx7_left30.png");
     Map Track1(0.0, 0.0, "images/tracks/track1.png");
     Driving_Physic myPhysic;
-    Dashboard playerDash(900.0, 650.0, "images/hud/rpm_and_speed_gauge.png", "images/hud/rpm_and_speed_tip.png", 0.45);
-    SteeringWheel playerStW(100, 650, "images/hud/steering_wheel.png");
+    Dashboard hudDashBoard(900.0, 650.0, "images/hud/rpm_and_speed_gauge.png", "images/hud/rpm_and_speed_tip.png", 0.45);
+    SteeringWheel hudSteeringWheel(160.0, 800.0, "images/hud/steering_wheel.png");
     text.setString(std::to_string(Mazda_rx7.steerAngle));
     text2.setString(std::to_string(Mazda_rx7.speed*3600/1000));
     text.setPosition(10,50);
@@ -85,11 +85,10 @@ int main()
         myPhysic.moveCar(&Mazda_rx7);
         calculateCarRPM(&Mazda_rx7);
         calculateCarGear(&Mazda_rx7);
-        playerDash.readCarData(&Mazda_rx7);
-
-        std::cout<<Mazda_rx7.currentRpm<<std::endl;
-        playerDash.showData();
-        playerStW.setRotation(Mazda_rx7.steerAngle*15.0);
+        hudDashBoard.readCarData(&Mazda_rx7);
+        hudSteeringWheel.readCarData(&Mazda_rx7);
+        hudDashBoard.showData();
+        hudSteeringWheel.showData();
         Mazda_rx7.setPathToRightTexture();
         Mazda_rx7.loadTexture();
         Mazda_rx7.setTexture();
@@ -102,16 +101,9 @@ int main()
         window.clear();
         window.draw(Track1.sp);
         window.draw(Mazda_rx7.sp);
-        window.draw(playerDash.spGauge);
-        window.draw(playerDash.spTip);
-        window.draw(playerStW.sp);
-        /////////////////////////////////////////
-        //sp_hud_steeringwheel.setRotation(Mazda_rx7.steerAngle*15.0);
-        //window.draw(sp_hud_steeringwheel);
-        //window.draw(sp_hud_gauge);
-        //sp_hud_tip.setRotation(-90.0 + car_rpm/42.8);
-        //window.draw(sp_hud_tip);
-        /////////////////////////////////////////
+        window.draw(hudDashBoard.spGauge);
+        window.draw(hudDashBoard.spTip);
+        window.draw(hudSteeringWheel.sp);
         //window.draw(text);
         //window.draw(text2);
         window.display();

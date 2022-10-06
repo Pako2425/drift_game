@@ -35,3 +35,13 @@ void SteeringWheel::setRotation(double angle)
 {
     SteeringWheel::sp.setRotation(angle);
 }
+
+void SteeringWheel::readCarData(Car *anyCar)
+{
+    SteeringWheel::angleOfSteeringWheel = anyCar->steerAngle*15.0;
+}
+
+void SteeringWheel::showData()
+{
+    SteeringWheel::setRotation(SteeringWheel::angleOfSteeringWheel);
+}

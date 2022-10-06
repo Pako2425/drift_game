@@ -1,6 +1,7 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 #include <iostream>
+#include "car.hpp"
 
 class SteeringWheel
 {
@@ -21,6 +22,8 @@ class SteeringWheel
     void setScale(double);
     void setPosition(double, double);
     void setRotation(double);
+    void readCarData(Car *);
+    void showData();
 
     SteeringWheel(double idleXPos, double idleYPos, std::string idleTexturePath)
     {
