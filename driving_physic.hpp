@@ -18,6 +18,8 @@ class Driving_Physic
     void calculateCarRotationAngle(Car *);
     void calculateNewCarAngle(Car *);
     void calculateNewCarPosition(Car *);
+    void calculateRPM(Car *);
+    void calculateGear(Car *);
     void moveCar(Car *);
 
     Driving_Physic()

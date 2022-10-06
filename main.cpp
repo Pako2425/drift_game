@@ -7,6 +7,7 @@
 #include "car.hpp"
 #include "map.hpp"
 #include "driving_physic.hpp"
+#include "dashboard.hpp"
 
 int main()
 {
@@ -26,6 +27,7 @@ int main()
     Car Mazda_rx7(640, 480, 0, "images/cars/mazda_rx7_left30.png");
     Map Track1(0.0, 0.0, "images/tracks/track1.png");
     Driving_Physic myPhysic;
+    Dashboard playerDash(900.0, 650.0, "images/hud/rpm_and_speed_gauge.png", "images/hud/rpm_and_speed_tip.png", 0.45);
     text.setString(std::to_string(Mazda_rx7.steerAngle));
     text2.setString(std::to_string(Mazda_rx7.speed*3600/1000));
     text.setPosition(10,50);
@@ -37,25 +39,7 @@ int main()
     sound.setBuffer(buffer);
     sound.setLoop(true);
     sound.setPitch(0.8);
-    sound.play();
-
-    //std::string hud_gauge_path = "images/hud/rpm_and_speed_gauge.png";
-    //std::string hud_tip_path = "images/hud/rpm_and_speed_tip.png";
-    //sp_hud_steeringwheel.setPosition(200.0, 800.0);
-    //sp_hud_steeringwheel.setScale(0.80, 0.80);
-
-    //int x_gauge_center = 900.0;
-    //int y_gauge_center = 650.0;
-    //sp_hud_gauge.setScale(0.45, 0.45);
-    //sp_hud_gauge.setPosition(x_gauge_center, y_gauge_center);
-    
-    //int x_tip_center = x_gauge_center;
-    //int y_tip_center = y_gauge_center;
-    //int xd = 0;
-    //int yd = 0;
-    //sp_hud_tip.setOrigin(264.87, 35.88);
-    //sp_hud_tip.setScale(0.45, 0.45);
-    //sp_hud_tip.setPosition(x_tip_center+141, y_tip_center+135); //313.33 300.00
+    //sound.play();
     /////////////////////////////////////////
     while(window.isOpen())
     {
@@ -94,11 +78,14 @@ int main()
             Mazda_rx7.decelerate();
         }
         myPhysic.moveCar(&Mazda_rx7);
+        playerDash.readCarData(&Mazda_rx7);
+        std::cout<<Mazda_rx7.idleRpm<<std::endl;
+        playerDash.showData();
         Mazda_rx7.setPathToRightTexture();
         Mazda_rx7.loadTexture();
         Mazda_rx7.setTexture();
-        Mazda_rx7.setPosition(Mazda_rx7.xPos, Mazda_rx7.yPos);
-        Mazda_rx7.setRotation(Mazda_rx7.angle);
+        Mazda_rx7.setPosition();
+        Mazda_rx7.setRotation();
         //////////////////////////////////////////////////////////
         //sound.setPitch(car_rpm/1400.0);
         //sound.setPitch(0.5 + car_rpm/1000.0);
@@ -115,11 +102,13 @@ int main()
         //{
         //    car_gear = car_gear;
         //}
-        std::cout<<"xPos: "<<Mazda_rx7.xPos<<std::endl<<"yPos: "<<Mazda_rx7.yPos<<std::endl;
+        //std::cout<<"xPos: "<<Mazda_rx7.xPos<<std::endl<<"yPos: "<<Mazda_rx7.yPos<<std::endl;
         /////////////////////////////////////////////////////////
         window.clear();
         window.draw(Track1.sp);
         window.draw(Mazda_rx7.sp);
+        window.draw(playerDash.spGauge);
+        window.draw(playerDash.spTip);
         /////////////////////////////////////////
         //sp_hud_steeringwheel.setRotation(Mazda_rx7.steerAngle*15.0);
         //window.draw(sp_hud_steeringwheel);

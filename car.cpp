@@ -117,9 +117,9 @@ void Car::getCenterOfTexture()
     Car::center_y = Car::texture.getSize().y/2.0;
 }
 
-void Car::setOrigin(double x, double y)
+void Car::setOrigin()
 {
-    Car::sp.setOrigin(x, y);
+    Car::sp.setOrigin(Car::center_x, Car::center_y*1.7);
 }
 
 void Car::setScale(double scale)
@@ -127,12 +127,12 @@ void Car::setScale(double scale)
     Car::sp.setScale(scale, scale);
 }
 
-void Car::setPosition(double x, double y)
+void Car::setPosition()
 {
-    Car::sp.setPosition(x, y);
+    Car::sp.setPosition(Car::xPos, Car::yPos);
 }
 
-void Car::setRotation(double angle)
+void Car::setRotation()
 {
-    Car::sp.setRotation(angle);
+    Car::sp.setRotation(Car::angle);
 }
