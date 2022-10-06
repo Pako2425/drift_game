@@ -9,6 +9,9 @@
 #include "driving_physic.hpp"
 #include "dashboard.hpp"
 
+void calculateCarRPM(Car *);
+void calculateCarGear(Car *);
+
 int main()
 {
     sf::RenderWindow window(sf::VideoMode(1280,960), "game_window");
@@ -78,8 +81,10 @@ int main()
             Mazda_rx7.decelerate();
         }
         myPhysic.moveCar(&Mazda_rx7);
+        calculateCarRPM(&Mazda_rx7);
+        calculateCarGear(&Mazda_rx7);
         playerDash.readCarData(&Mazda_rx7);
-        std::cout<<Mazda_rx7.idleRpm<<std::endl;
+        std::cout<<Mazda_rx7.currentRpm<<std::endl;
         playerDash.showData();
         Mazda_rx7.setPathToRightTexture();
         Mazda_rx7.loadTexture();
@@ -89,20 +94,6 @@ int main()
         //////////////////////////////////////////////////////////
         //sound.setPitch(car_rpm/1400.0);
         //sound.setPitch(0.5 + car_rpm/1000.0);
-        //car_rpm = 800.0+(60.0*car_gearRatios[car_gear-1]*car_rear_axle_ratio)/(car_wheel_circumference)*Mazda_rx7.speed;
-        //if(car_rpm >= car_maxRpm)
-        //{
-        //    car_gear+=1;
-        //}
-        //else if(car_rpm<car_maxRpm*0.60 && car_gear!=1)
-        //{
-        //    car_gear-=1;
-        //}
-        //else
-        //{
-        //    car_gear = car_gear;
-        //}
-        //std::cout<<"xPos: "<<Mazda_rx7.xPos<<std::endl<<"yPos: "<<Mazda_rx7.yPos<<std::endl;
         /////////////////////////////////////////////////////////
         window.clear();
         window.draw(Track1.sp);
@@ -121,4 +112,28 @@ int main()
         window.display();
     }
     return 0;
+}
+
+void calculateCarRPM(Car *anyCar)
+{
+    anyCar->currentRpm = 800.0+(60.0*anyCar->gearRatios[anyCar->gear-1]*anyCar->rearAxleRatio)/(anyCar->wheelsCircumference)*anyCar->speed;
+}
+
+void calculateCarGear(Car *anyCar)
+{
+    double carRpm = anyCar->currentRpm;
+    double carMaxRpm = anyCar->maxRpm;
+    int carGear = anyCar->gear;
+    if(carRpm >= carMaxRpm)
+    {
+        anyCar->gear+=1;
+    }
+    else if(carRpm<carMaxRpm*0.60 && carGear!=1)
+    {
+        anyCar->gear-=1;
+    }
+    else
+    {
+        anyCar->gear = carGear;
+    }
 }
