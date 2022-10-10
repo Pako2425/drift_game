@@ -3,66 +3,66 @@
 
 void Car::accelerate()
 {
-    Car::speed = Car::speed + (Car::maxSpeed - Car::speed)*0.002;
+    this->speed = this->speed + (this->maxSpeed - this->speed)*0.002;
 }
 
 void Car::decelerate()
 {
-    if(Car::speed >= 19.44)
+    if(this->speed >= 19.44)
     {
-        Car::speed = Car::speed - Car::speed * 0.0011; 
+        this->speed = this->speed - this->speed * 0.0011; 
     }
-    else if(Car::speed < 19.44 && Car::speed > 0)
+    else if(this->speed < 19.44 && this->speed > 0)
     {
-        Car::speed = Car::speed - 0.021;
+        this->speed = this->speed - 0.021;
     }
     else
     {
-        Car::speed = 0.0;
+        this->speed = 0.0;
     }
 }
 
 void Car::brake()
 {
-    if(Car::speed > 0.17)
+    if(this->speed > 0.17)
     {
-        Car::speed = Car::speed - 0.17;
+        this->speed = this->speed - 0.17;
     }
     else
     {
-        Car::speed = 0.0;
+        this->speed = 0.0;
     }
 }
 
 void Car::steerRight()
 {
-    if(Car::steerAngle < Car::maxRaceSteerAngle)
+    if(this->steerAngle < this->maxRaceSteerAngle)
     {
-        Car::steerAngle += Car::dSteerAngle;
+        this->steerAngle += this->dSteerAngle;
     }
 }
 
 void Car::steerLeft()
 {
-    if(Car::steerAngle > -Car::maxRaceSteerAngle)
+    if(this->steerAngle > -this->maxRaceSteerAngle)
     {
-        Car::steerAngle -= Car::dSteerAngle;
+        this->steerAngle -= this->dSteerAngle;
     }
 }
 
 void Car::steerReturning()
 {
-    if(Car::steerAngle > 0)
+    if(this->steerAngle > 0)
     {
-        Car::steerAngle -= Car::dSteerAngle;
+        this->steerAngle -= this->dSteerAngle;
     }
-    else if(Car::steerAngle < 0)
+    else if(this->steerAngle < 0)
     {
-        Car::steerAngle += Car::dSteerAngle;
+        this->steerAngle += this->dSteerAngle;
     }
     else
     {
-        Car::steerAngle = Car::steerAngle;
+        this->steerAngle = this->steerAngle;
     }
 }
 
@@ -70,7 +70,7 @@ void Car::setPathToRightTexture()   //function responsible for choose right text
 {
     std::string path_mainPart = "images/cars/";
     std::string path;
-    int steerAngle = (int)Car::steerAngle;
+    int steerAngle = (int)this->steerAngle;
     if(steerAngle%2 != 0)
     {
         if(steerAngle > 0)
@@ -98,41 +98,41 @@ void Car::setPathToRightTexture()   //function responsible for choose right text
     {
         path = path_mainPart.append("mazda_rx7.png");
     }
-    Car::texturePath = path;
+    this->texturePath = path;
 }
 
 void Car::loadTexture()
 {
-    Car::texture.loadFromFile(Car::texturePath);
+    this->texture.loadFromFile(this->texturePath);
 }
 
 void Car::setTexture()
 {
-    Car::sp.setTexture(Car::texture);
+    this->sp.setTexture(this->texture);
 }
 
 void Car::getCenterOfTexture()
 {
-    Car::center_x = Car::texture.getSize().x/2.0;
-    Car::center_y = Car::texture.getSize().y/2.0;
+    this->center_x = this->texture.getSize().x/2.0;
+    this->center_y = this->texture.getSize().y/2.0;
 }
 
 void Car::setOrigin()
 {
-    Car::sp.setOrigin(Car::center_x, Car::center_y*1.7);
+    this->sp.setOrigin(this->center_x, this->center_y*1.7);
 }
 
 void Car::setScale(double scale)
 {
-    Car::sp.setScale(scale, scale);
+    this->sp.setScale(scale, scale);
 }
 
 void Car::setPosition()
 {
-    Car::sp.setPosition(Car::xPos, Car::yPos);
+    this->sp.setPosition(this->xPos, this->yPos);
 }
 
 void Car::setRotation()
 {
-    Car::sp.setRotation(Car::angle);
+    this->sp.setRotation(Car::angle);
 }

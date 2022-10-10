@@ -3,39 +3,39 @@
 
 void Controller::readInput()
 {
-    Controller::gasPedal = false;
-    Controller::brakePedal = false;
-    Controller::steerLeft = false;
-    Controller::steerRight = false;
-    Controller::handBrake = false;
-    Controller::shiftUp = false;
-    Controller::shiftDown = false;
+    this->gasPedal = false;
+    this->brakePedal = false;
+    this->steerLeft = false;
+    this->steerRight = false;
+    this->handBrake = false;
+    this->shiftUp = false;
+    this->shiftDown = false;
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
     {
-        Controller::gasPedal = true;
+        this->gasPedal = true;
     }
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
     {
-        Controller::brakePedal = true;
+        this->brakePedal = true;
     }
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
     {
-        Controller::steerLeft = true;
+        this->steerLeft = true;
     }
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
     {
-        Controller::steerRight = true;
+        this->steerRight = true;
     }
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::A))
     {
-        Controller::shiftUp = true;
+        this->shiftUp = true;
     }
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Z))
     {
-        Controller::shiftDown = true;
+        this->shiftDown = true;
     }
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
     {
-        Controller::handBrake = true;
+        this->handBrake = true;
     }
 }

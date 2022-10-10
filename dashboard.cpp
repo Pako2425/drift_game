@@ -2,50 +2,49 @@
 
 void Dashboard::loadTexture()
 {
-    Dashboard::gaugeTexture.loadFromFile(Dashboard::gaugeTexturePath);
-    Dashboard::tipTexture.loadFromFile(Dashboard::tipTexturePath);
+    this->gaugeTexture.loadFromFile(this->gaugeTexturePath);
+    this->tipTexture.loadFromFile(this->tipTexturePath);
 }
 
 void Dashboard::setTexture()
 {
-    Dashboard::spGauge.setTexture(Dashboard::gaugeTexture);
-    Dashboard::spTip.setTexture(Dashboard::tipTexture);
+    this->spGauge.setTexture(this->gaugeTexture);
+    this->spTip.setTexture(this->tipTexture);
 }
 
 void Dashboard::setOrigins()
 {
-    Dashboard::spGauge.setOrigin(Dashboard::x_gaugeOrigin, Dashboard::y_gaugeOrigin);
-    Dashboard::spTip.setOrigin(Dashboard::x_tipOrigin, Dashboard::y_tipOrigin);
+    this->spGauge.setOrigin(this->x_gaugeOrigin, this->y_gaugeOrigin);
+    this->spTip.setOrigin(this->x_tipOrigin, this->y_tipOrigin);
 }
 
 void Dashboard::setScale(double scale)
 {
-    Dashboard::spGauge.setScale(scale, scale);
-    Dashboard::spTip.setScale(scale, scale);
-    Dashboard::scale = scale;
+    this->spGauge.setScale(scale, scale);
+    this->spTip.setScale(scale, scale);
+    this->scale = scale;
 }
 
 void Dashboard::setPosition(double x, double y)
 {
-    Dashboard::spGauge.setPosition(x, y);
-    Dashboard::spTip.setPosition(x+141.0, y+135.0);
-    //Dashboard::spTip.setPosition(Dashboard::xScreenPos+313.33*Dashboard::Scale, Dashboard::xScreenPos+300.0*Dashboard::Scale);
+    this->spGauge.setPosition(x, y);
+    this->spTip.setPosition(x+141.0, y+135.0);
 }
 
 void Dashboard::setTipAngle()
 {
-    Dashboard::tipAngle = -90.0+Dashboard::rpm/42.8;
-    Dashboard::spTip.setRotation(Dashboard::tipAngle);
+    this->tipAngle = -90.0+this->rpm/42.8;
+    this->spTip.setRotation(this->tipAngle);
 }
 
 void Dashboard::readCarData(Car *anyCar)
 {
-    Dashboard::speed = anyCar->speed;
-    Dashboard::rpm = anyCar->currentRpm;
-    Dashboard::gear = anyCar->gear;
+    this->speed = anyCar->speed;
+    this->rpm = anyCar->currentRpm;
+    this->gear = anyCar->gear;
 }
 
 void Dashboard::showData()
 {
-    Dashboard::setTipAngle();
+    this->setTipAngle();
 }
