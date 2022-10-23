@@ -50,7 +50,6 @@ public:
     virtual ~Car();
 
     void move(const double dx, const double dy, const double dAngle);
-    void update();
 
     void accelerate();
     void decelerate();
@@ -58,13 +57,10 @@ public:
     void steerLeft();
     void steerRight();
     void steerReturning();
-    
+    void calculateRPM();
+    void calculateGear();
+
     void setPathToRightTexture();
-    void loadTexture();
-    void setTexture();
-    void getCenterOfTexture();
-    void setOrigin();
-    void setScale(double);
-    void setPosition();
-    void setRotation();
+
+    void update();
 };

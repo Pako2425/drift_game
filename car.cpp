@@ -155,10 +155,33 @@ void Car::setPathToRightTexture()   //function responsible for choose right text
     this->texturePath = path;
 }
 
+void Car::calculateRPM()
+{
+    this->currentRpm = this->idleRpm+( (60.0*this->gearRatios[this->gear-1]*this->rearAxleRatio)/(this->wheelsCircumference) )*this->velocity;
+}
+
+void Car::calculateGear()
+{
+    if(this->currentRpm >= this->maxRpm)
+    {
+        this->gear+=1;
+    }
+    else if((this->currentRpm < this->maxRpm*0.60) && (this->gear > 1))
+    {
+        this->gear-=1;
+    }
+    else
+    {
+        this->gear = this->gear;
+    }
+}
+
 void Car::update()
 {
     this->texture.loadFromFile(this->texturePath);
     this->sp.setTexture(this->texture);
     this->sp.setPosition(this->xPos, this->yPos);
     this->sp.setRotation(this->angle);
+    this->calculateRPM();
+    this->calculateGear();
 }
