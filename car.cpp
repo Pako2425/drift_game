@@ -1,68 +1,121 @@
 #include "car.hpp"
 #include <cmath>
 
+Car::Car(double idleXPos, double idleYPos, double idleAngle, std::string idleTexturePath)
+{
+    this->steerAngle = 0.0;
+    this->dSteerAngle = 0.5;
+    this->maxRaceSteerAngle = 30.0;
+    this->steeringWheelPosition = 0;
+    this->velocity = 0.0;
+    this->maxVelocity = 67.0;
+    this->xPos = idleXPos;
+    this->yPos = idleYPos;
+    this->angle = idleAngle;
+    this->texturePath = idleTexturePath;
+    this->length = 4.3;
+    this->gear = 1;
+    this->idleRpm = 800.0;
+    this->maxRpm = 7800.0;
+    this->gearRatios[0] = 3.683;
+    this->gearRatios[1] = 2.263;
+    this->gearRatios[2] = 1.397;
+    this->gearRatios[3] = 1.00;
+    this->gearRatios[4] = 0.862;
+    this->rearAxleRatio = 3.9;
+    this->wheelsDiameter = 0.68;
+    this->wheelsCircumference = M_PI*wheelsDiameter;
+    
+    this->texture.loadFromFile(this->texturePath);
+    this->sp.setTexture(this->texture);
+    this->sp.setScale(0.20, 0.20);
+    this->sp.setOrigin(this->texture.getSize().x*0.5, this->texture.getSize().y*0.85);
+    this->sp.setPosition(this->xPos, this->yPos);
+    this->sp.setRotation(this->angle);
+}
+
+Car::~Car()
+{
+
+}
+
+void Car::move(const double dx, const double dy, const double dAngle)
+{
+    this->xPos += dx;
+    this->yPos += dy;
+    this->angle += dAngle;
+}
+
 void Car::accelerate()
 {
-    Car::speed = Car::speed + (Car::maxSpeed - Car::speed)*0.002;
+    this->velocity += (this->maxVelocity - this->velocity)*0.002;
 }
 
 void Car::decelerate()
 {
-    if(Car::speed >= 19.44)
+    if(this->velocity >= 19.44)
     {
-        Car::speed = Car::speed - Car::speed * 0.0011; 
+        this->velocity -= this->velocity * 0.0011; 
     }
-    else if(Car::speed < 19.44 && Car::speed > 0)
+    else if(this->velocity < 19.44 && this->velocity > 0)
     {
-        Car::speed = Car::speed - 0.021;
+        this->velocity -= 0.021;
     }
     else
     {
-        Car::speed = 0.0;
+        this->velocity = 0.0;
     }
 }
 
 void Car::brake()
 {
-    if(Car::speed > 0.17)
+    if(this->velocity > 0.17)
     {
-        Car::speed = Car::speed - 0.17;
+        this->velocity -= 0.17;
     }
     else
     {
-        Car::speed = 0.0;
+        this->velocity = 0.0;
     }
 }
 
 void Car::steerRight()
 {
-    if(Car::steerAngle < Car::maxRaceSteerAngle)
+    if(this->steerAngle < this->maxRaceSteerAngle)
     {
-        Car::steerAngle += Car::dSteerAngle;
+        this->steerAngle += this->dSteerAngle;
+    }
+    else
+    {
+        this->steerAngle = this->steerAngle;
     }
 }
 
 void Car::steerLeft()
 {
-    if(Car::steerAngle > -Car::maxRaceSteerAngle)
+    if(-this->steerAngle < this->maxRaceSteerAngle)
     {
-        Car::steerAngle -= Car::dSteerAngle;
+        this->steerAngle -= this->dSteerAngle;
+    }
+    else
+    {
+        this->steerAngle = this->steerAngle;
     }
 }
 
 void Car::steerReturning()
 {
-    if(Car::steerAngle > 0)
+    if(this->steerAngle > 0)
     {
-        Car::steerAngle -= Car::dSteerAngle;
+        this->steerAngle -= this->dSteerAngle;
     }
-    else if(Car::steerAngle < 0)
+    else if(this->steerAngle < 0)
     {
-        Car::steerAngle += Car::dSteerAngle;
+        this->steerAngle += this->dSteerAngle;
     }
     else
     {
-        Car::steerAngle = Car::steerAngle;
+        this->steerAngle = this->steerAngle;
     }
 }
 
@@ -70,7 +123,7 @@ void Car::setPathToRightTexture()   //function responsible for choose right text
 {
     std::string path_mainPart = "images/cars/";
     std::string path;
-    int steerAngle = (int)Car::steerAngle;
+    int steerAngle = (int)this->steerAngle;
     if(steerAngle%2 != 0)
     {
         if(steerAngle > 0)
@@ -86,6 +139,7 @@ void Car::setPathToRightTexture()   //function responsible for choose right text
     {
         steerAngle = steerAngle;
     }
+
     if(steerAngle > 0)
     {
         path = path_mainPart.append("mazda_rx7_right" + std::to_string(steerAngle) + ".png");
@@ -98,41 +152,13 @@ void Car::setPathToRightTexture()   //function responsible for choose right text
     {
         path = path_mainPart.append("mazda_rx7.png");
     }
-    Car::texturePath = path;
+    this->texturePath = path;
 }
 
-void Car::loadTexture()
+void Car::update()
 {
-    Car::texture.loadFromFile(Car::texturePath);
-}
-
-void Car::setTexture()
-{
-    Car::sp.setTexture(Car::texture);
-}
-
-void Car::getCenterOfTexture()
-{
-    Car::center_x = Car::texture.getSize().x/2.0;
-    Car::center_y = Car::texture.getSize().y/2.0;
-}
-
-void Car::setOrigin()
-{
-    Car::sp.setOrigin(Car::center_x, Car::center_y*1.7);
-}
-
-void Car::setScale(double scale)
-{
-    Car::sp.setScale(scale, scale);
-}
-
-void Car::setPosition()
-{
-    Car::sp.setPosition(Car::xPos, Car::yPos);
-}
-
-void Car::setRotation()
-{
-    Car::sp.setRotation(Car::angle);
+    this->texture.loadFromFile(this->texturePath);
+    this->sp.setTexture(this->texture);
+    this->sp.setPosition(this->xPos, this->yPos);
+    this->sp.setRotation(this->angle);
 }
