@@ -6,15 +6,15 @@
 class Car
 {
     public:
-    double steerAngle;     //-30 - 30
-    double dSteerAngle;
-    double maxRaceSteerAngle;
-    int steeringWheelPosition;   //-540-540
-    double xPos;
-    double yPos;
-    double speed;     //in m/s
-    double maxSpeed;
-    double angle;
+    double steerAngle;     //-30 - 30           //?SteeringComponent?
+    double dSteerAngle;                         //?SteeringComponent?
+    double maxRaceSteerAngle;                   //?SteeringComponent?
+    int steeringWheelPosition;   //-540-540     //?SteeringComponent?
+    double xPos;                                //PositionComponent
+    double yPos;                                //PositionComponent
+    double speed;     //in m/s                  //VelocityComponent
+    double maxSpeed;                            //VelocityComponent
+    double angle;                               //VelocityComponent
     double length;
     int gear;
     double idleRpm;
