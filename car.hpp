@@ -15,9 +15,9 @@ class Car
     double speed;     //in m/s                  //VelocityComponent
     double maxSpeed;                            //VelocityComponent
     double angle;                               //VelocityComponent
-    double length;
-    int gear;
-    double idleRpm;
+    double length;                  //CarFeaturesComponent
+    int gear;                       //CarFeaturesComponent
+    double idleRpm;                 //CarFeaturesComponent
     double currentRpm;
     double maxRpm;
     double gearRatios[5];
