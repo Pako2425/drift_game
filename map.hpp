@@ -4,6 +4,7 @@
 
 class Map
 {
+private:
     public:
     double xPos;
     double yPos;
@@ -11,20 +12,7 @@ class Map
     sf::Texture texture;
     sf::Sprite sp;
 
-    void setTexturePath();
-    void loadTexture();
-    void setTexture();
-    void setScale(double);
-    void setPosition(double, double);
-
-    Map(double idleXPos, double idleYPos, std::string idleTexturePath)
-    {
-        xPos = idleXPos;
-        yPos = idleYPos;
-        texturePath = idleTexturePath;
-        loadTexture();
-        setTexture();
-        setScale(1.2);
-        setPosition(xPos, yPos);
-    }
+public:
+    Map(double idleXPos, double idleYPos, std::string idleTexturePath);
+    ~Map();
 };
