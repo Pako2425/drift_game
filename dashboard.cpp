@@ -34,18 +34,18 @@ void Dashboard::setPosition(double x, double y)
 
 void Dashboard::setTipAngle()
 {
-    Dashboard::tipAngle = -90.0+Dashboard::rpm/42.8;
-    Dashboard::spTip.setRotation(Dashboard::tipAngle);
+    this->tipAngle = -90.0+this->rpm/42.8;
+    this->spTip.setRotation(this->tipAngle);
 }
 
-void Dashboard::readCarData(Car *anyCar)
+void Dashboard::readCarData(const Car& anyCar)
 {
-    Dashboard::speed = anyCar->speed;
-    Dashboard::rpm = anyCar->currentRpm;
-    Dashboard::gear = anyCar->gear;
+    this->speed = anyCar.getVelocity();
+    this->rpm = anyCar.getCurrentRpm();
+    this->gear = anyCar.getGear();
 }
 
 void Dashboard::showData()
 {
-    Dashboard::setTipAngle();
+    this->setTipAngle();
 }

@@ -176,8 +176,54 @@ void Car::calculateGear()
     }
 }
 
+const double& Car::getXPos() const
+{
+    return this->xPos;
+}
+
+const double& Car::getYPos() const
+{
+    return this->yPos;
+}
+
+const sf::Sprite& Car::getSprite() const
+{
+    return this->sp;
+}
+
+const double& Car::getVelocity() const
+{
+    return this->velocity;
+}
+
+const double& Car::getAngle() const
+{
+    return this->angle;
+}
+
+const double& Car::getSteerAngle() const
+{
+    return this->steerAngle;
+}
+
+const int& Car::getGear() const
+{
+    return this->gear;
+}
+
+const double& Car::getCurrentRpm() const
+{
+    return this->currentRpm;
+}
+
+const double& Car::getLength() const
+{
+    return this->length;
+}
+
 void Car::update()
 {
+    this->setPathToRightTexture();
     this->texture.loadFromFile(this->texturePath);
     this->sp.setTexture(this->texture);
     this->sp.setPosition(this->xPos, this->yPos);

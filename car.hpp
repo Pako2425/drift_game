@@ -36,13 +36,11 @@ private:
     double wheelsCircumference;
     
     //Sprite components
-    double center_x;
-    double center_y;
     std::string texturePath;
     sf::Texture texture;
     sf::Sprite sp;
 
-public:
+public:    
     //HUD
     int steeringWheelPosition;   //-540-540
 
@@ -62,5 +60,14 @@ public:
 
     void setPathToRightTexture();
 
+    const sf::Sprite& getSprite() const;
+    const double& getXPos() const;
+    const double& getYPos() const;
+    const double& getVelocity() const;
+    const double& getAngle() const;
+    const double& getSteerAngle() const;
+    const int& getGear() const;
+    const double& getCurrentRpm() const;
+    const double& getLength() const;
     void update();
 };
