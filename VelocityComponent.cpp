@@ -33,7 +33,7 @@ void VelocityComponent::decelerate()
     }
     else if(this->velocity < 19.44 && this->velocity > 0)
     {
-        this->velocity = this->velocity - 0.021;
+        this->velocity -= 0.021;
     }
     else
     {
