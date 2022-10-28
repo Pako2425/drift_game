@@ -12,7 +12,7 @@
 
 int main()
 {
-    sf::RenderWindow window(sf::VideoMode(1280,960), "game_window");
+    sf::RenderWindow window(sf::VideoMode(1280,960), "Perfect Line");
     window.setFramerateLimit(60);
     Controller myController;    
     Car Mazda_rx7(640, 480, 0, "images/cars/mazda_rx7_left30.png");
@@ -27,7 +27,7 @@ int main()
     sound.setBuffer(buffer);
     sound.setLoop(true);
     sound.setPitch(0.8);
-    //sound.play();
+    sound.play();
     /////////////////////////////////////////
     while(window.isOpen())
     {
@@ -72,11 +72,11 @@ int main()
         //hudSteeringWheel.showData();
         Mazda_rx7.update();
         //////////////////////////////////////////////////////////
-        //sound.setPitch(car_rpm/1400.0);
-        //sound.setPitch(0.5 + car_rpm/1000.0);
+        sound.setPitch(Mazda_rx7.getCurrentRpm()/1400.0);
+        //sound.setPitch(0.5 + Mazda_rx7.getCurrentRpm()/1000.0);
         /////////////////////////////////////////////////////////
         window.clear();
-        window.draw(Track1.sp);
+        window.draw(Track1.getSprite());
         window.draw(Mazda_rx7.getSprite());
         //window.draw(hudDashBoard.spGauge);
         //window.draw(hudDashBoard.spTip);

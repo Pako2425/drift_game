@@ -5,7 +5,6 @@
 class Map
 {
 private:
-    public:
     double xPos;
     double yPos;
     std::string texturePath;
@@ -15,4 +14,8 @@ private:
 public:
     Map(double idleXPos, double idleYPos, std::string idleTexturePath);
     ~Map();
+
+    const double& getXPos() const;
+    const double& getYPos() const;
+    const sf::Sprite& getSprite() const;
 };

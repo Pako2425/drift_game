@@ -63,8 +63,8 @@ void Driving_Physic::calculateNewCarAngle(const Car& anyCar)
 
 void Driving_Physic::calculateNewCarPosition(const Car& anyCar)
 {
-    this->newCarXPos = 12.0*anyCar.getVelocity()*this->dt*sin(anyCar.getAngle()*M_PI/180);
-    this->newCarYPos = -12.0*anyCar.getVelocity()*this->dt*cos(anyCar.getAngle()*M_PI/180);
+    this->newCarXPos = 18.0*anyCar.getVelocity()*this->dt*sin(anyCar.getAngle()*M_PI/180);
+    this->newCarYPos = -18.0*anyCar.getVelocity()*this->dt*cos(anyCar.getAngle()*M_PI/180);
 }
 
 void Driving_Physic::updateCar(Car& anyCar)
