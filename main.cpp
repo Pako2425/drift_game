@@ -32,7 +32,7 @@ int main()
     
     while(game.isRunning())
     {
-        game.updateEvents();
+        game.updateSFMLEvents();
         
         myController.readInput();
         if(myController.steerLeft)
