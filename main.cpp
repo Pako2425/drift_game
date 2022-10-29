@@ -13,6 +13,7 @@
 int main()
 {
     sf::RenderWindow window(sf::VideoMode(1280,960), "Perfect Line");
+    sf::View view(sf::Vector2f(640,480), sf::Vector2f(1280,960));
     window.setFramerateLimit(60);
     Controller myController;    
     Car Mazda_rx7(640, 480, 0, "images/cars/mazda_rx7_left30.png");
@@ -34,7 +35,7 @@ int main()
         sf::Event event;
         while(window.pollEvent(event))
         {
-            if (event.type == sf::Event::Closed)
+            if(event.type == sf::Event::Closed)
             {
                 window.close();
             }
@@ -71,9 +72,11 @@ int main()
         //hudDashBoard.showData();
         //hudSteeringWheel.showData();
         Mazda_rx7.update();
+        view.setCenter(Mazda_rx7.getXPos(), Mazda_rx7.getYPos());
+        view.setRotation(Mazda_rx7.getAngle());
+        window.setView(view);
         //////////////////////////////////////////////////////////
-        sound.setPitch(Mazda_rx7.getCurrentRpm()/1400.0);
-        //sound.setPitch(0.5 + Mazda_rx7.getCurrentRpm()/1000.0);
+        sound.setPitch(0.5 + Mazda_rx7.getCurrentRpm()/1000.0);
         /////////////////////////////////////////////////////////
         window.clear();
         window.draw(Track1.getSprite());
@@ -81,8 +84,6 @@ int main()
         //window.draw(hudDashBoard.spGauge);
         //window.draw(hudDashBoard.spTip);
         //window.draw(hudSteeringWheel.sp);
-        //window.draw(text);
-        //window.draw(text2);
         window.display();
     }
     return 0;
