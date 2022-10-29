@@ -35,7 +35,7 @@ bool Game::isRunning()
     return this->window->isOpen();
 }
 
-void Game::updateEvents()
+void Game::updateSFMLEvents()
 {
     while(this->window->pollEvent(this->event))
     {
@@ -44,6 +44,18 @@ void Game::updateEvents()
             this->window->close();
         }
     }
+}
+
+void Game::run()
+{
+    this->updateSFMLEvents();
+    this->update();
+    this->render();
+}
+
+void Game::updateDt()
+{
+    this->dt = this->dtClock.restart().asSeconds();
 }
 
 void Game::setView()

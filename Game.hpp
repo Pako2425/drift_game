@@ -7,6 +7,10 @@ private:
     sf::RenderWindow* window;
     sf::View* view;
     sf::Event event;
+
+    sf::Clock dtClock;
+    float dt;
+
     void initVariables();
     void initWindow();
     void initView();
@@ -14,7 +18,8 @@ public:
     Game();
     ~Game();
     bool isRunning();
-    void updateEvents();
+    void updateSFMLEvents();
+    void updateDt();
     void inputs();
     void update();
     void render();
