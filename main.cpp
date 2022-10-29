@@ -3,6 +3,7 @@
 #include <iostream>
 #include <cmath>
 #include <string>
+#include "Game.hpp"
 #include "controller.hpp"
 #include "car.hpp"
 #include "map.hpp"
@@ -12,9 +13,7 @@
 
 int main()
 {
-    sf::RenderWindow window(sf::VideoMode(1280,960), "Perfect Line");
-    sf::View view(sf::Vector2f(640,480), sf::Vector2f(1280,960));
-    window.setFramerateLimit(60);
+    Game game;
     Controller myController;    
     Car Mazda_rx7(640, 480, 0, "images/cars/mazda_rx7_left30.png");
     Map Track1(0.0, 0.0, "images/tracks/track1.png");
@@ -30,16 +29,11 @@ int main()
     sound.setPitch(0.8);
     sound.play();
     /////////////////////////////////////////
-    while(window.isOpen())
+    
+    while(game.isRunning())
     {
-        sf::Event event;
-        while(window.pollEvent(event))
-        {
-            if(event.type == sf::Event::Closed)
-            {
-                window.close();
-            }
-        }
+        game.updateEvents();
+        
         myController.readInput();
         if(myController.steerLeft)
         {
@@ -72,19 +66,20 @@ int main()
         //hudDashBoard.showData();
         //hudSteeringWheel.showData();
         Mazda_rx7.update();
-        view.setCenter(Mazda_rx7.getXPos(), Mazda_rx7.getYPos());
-        view.setRotation(Mazda_rx7.getAngle());
-        window.setView(view);
+        game.setCenter(Mazda_rx7.getXPos(), Mazda_rx7.getYPos());
+        game.setRotation(Mazda_rx7.getAngle());
+        game.setView();
         //////////////////////////////////////////////////////////
-        sound.setPitch(0.5 + Mazda_rx7.getCurrentRpm()/1000.0);
+        //sound.setPitch(0.5 + Mazda_rx7.getCurrentRpm()/1000.0);
         /////////////////////////////////////////////////////////
-        window.clear();
-        window.draw(Track1.getSprite());
-        window.draw(Mazda_rx7.getSprite());
+        game.windowClear();
+        game.windowDraw(Track1.getSprite());
+        game.windowDraw(Mazda_rx7.getSprite());
         //window.draw(hudDashBoard.spGauge);
         //window.draw(hudDashBoard.spTip);
         //window.draw(hudSteeringWheel.sp);
-        window.display();
+        
+        game.windowDisplay();
     }
     return 0;
 }
