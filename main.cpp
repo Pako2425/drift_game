@@ -61,24 +61,12 @@ int main()
             Mazda_rx7.decelerate();
         }
         myPhysic.updateCar(Mazda_rx7);
-        //hudDashBoard.readCarData(&Mazda_rx7);
-        //hudSteeringWheel.readCarData(&Mazda_rx7);
-        //hudDashBoard.showData();
-        //hudSteeringWheel.showData();
         Mazda_rx7.update();
-        game.setCenter(Mazda_rx7.getXPos(), Mazda_rx7.getYPos());
-        game.setRotation(Mazda_rx7.getAngle());
-        game.setView();
         //////////////////////////////////////////////////////////
         //sound.setPitch(0.5 + Mazda_rx7.getCurrentRpm()/1000.0);
         /////////////////////////////////////////////////////////
-        game.windowClear();
         game.windowDraw(Track1.getSprite());
         game.windowDraw(Mazda_rx7.getSprite());
-        //window.draw(hudDashBoard.spGauge);
-        //window.draw(hudDashBoard.spTip);
-        //window.draw(hudSteeringWheel.sp);
-        
         game.windowDisplay();
     }
     return 0;

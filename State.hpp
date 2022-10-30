@@ -13,10 +13,11 @@ class State
 {
 private:
     std::vector<sf::Texture> textures;
+    sf::RenderWindow* window;
 public:
-    State();
-    ~State();
-
-    virtual void update() = 0;
-    virtual void render() = 0;
+    State(sf::RenderWindow* window);
+    virtual ~State();
+    virtual void endState() = 0;
+    virtual void update(const float& dt) = 0;
+    virtual void render(sf::RenderTarget* target = nullptr) = 0;
 };

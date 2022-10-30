@@ -1,19 +1,24 @@
 #pragma once
 #include <SFML/Graphics.hpp>
+#include <stack>
+#include "State.hpp"
 
 class Game
 {
 private:
     sf::RenderWindow* window;
-    sf::View* view;
     sf::Event event;
 
     sf::Clock dtClock;
     float dt;
 
+    std::stack<State*> states;    
+
     void initVariables();
     void initWindow();
+    void initStates();
     void initView();
+    
 public:
     Game();
     ~Game();
@@ -25,10 +30,5 @@ public:
     void render();
     void run();
 
-    void setView();
-    void setCenter(const double, const double);
-    void setRotation(const double);
-    void windowClear();
     void windowDraw(const sf::Sprite&) const;
-    void windowDisplay();
 };
