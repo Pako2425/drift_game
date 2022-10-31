@@ -1,36 +1,81 @@
 #include "car.hpp"
 #include <cmath>
 
+Car::Car(double idleXPos, double idleYPos, double idleAngle, std::string idleTexturePath)
+{
+    this->steerAngle = 0.0;
+    this->dSteerAngle = 0.5;
+    this->maxRaceSteerAngle = 30.0;
+    this->steeringWheelPosition = 0;
+    this->velocity = 0.0;
+    this->maxVelocity = 67.0;
+    this->xPos = idleXPos;
+    this->yPos = idleYPos;
+    this->angle = idleAngle;
+    this->texturePath = idleTexturePath;
+    this->length = 4.3;
+    this->gear = 1;
+    this->idleRpm = 800.0;
+    this->maxRpm = 7800.0;
+    this->gearRatios[0] = 3.683;
+    this->gearRatios[1] = 2.263;
+    this->gearRatios[2] = 1.397;
+    this->gearRatios[3] = 1.00;
+    this->gearRatios[4] = 0.862;
+    this->rearAxleRatio = 3.9;
+    this->wheelsDiameter = 0.68;
+    this->wheelsCircumference = M_PI*wheelsDiameter;
+    
+    this->texture.loadFromFile(this->texturePath);
+    this->sp.setTexture(this->texture);
+    this->sp.setScale(0.20, 0.20);
+    this->sp.setOrigin(this->texture.getSize().x*0.5, this->texture.getSize().y*0.85);
+    this->sp.setPosition(this->xPos, this->yPos);
+    this->sp.setRotation(this->angle);
+}
+
+Car::~Car()
+{
+
+}
+
+void Car::move(const double dx, const double dy, const double dAngle)
+{
+    this->xPos += dx;
+    this->yPos += dy;
+    this->angle += dAngle;
+}
+
 void Car::accelerate()
 {
-    this->speed = this->speed + (this->maxSpeed - this->speed)*0.002;
+    this->velocity += (this->maxVelocity - this->velocity)*0.002;
 }
 
 void Car::decelerate()
 {
-    if(this->speed >= 19.44)
+    if(this->velocity >= 19.44)
     {
-        this->speed = this->speed - this->speed * 0.0011; 
+        this->velocity -= this->velocity * 0.0011; 
     }
-    else if(this->speed < 19.44 && this->speed > 0)
+    else if(this->velocity < 19.44 && this->velocity > 0)
     {
-        this->speed = this->speed - 0.021;
+        this->velocity -= 0.021;
     }
     else
     {
-        this->speed = 0.0;
+        this->velocity = 0.0;
     }
 }
 
 void Car::brake()
 {
-    if(this->speed > 0.17)
+    if(this->velocity > 0.17)
     {
-        this->speed = this->speed - 0.17;
+        this->velocity -= 0.17;
     }
     else
     {
-        this->speed = 0.0;
+        this->velocity = 0.0;
     }
 }
 
@@ -40,13 +85,21 @@ void Car::steerRight()
     {
         this->steerAngle += this->dSteerAngle;
     }
+    else
+    {
+        this->steerAngle = this->steerAngle;
+    }
 }
 
 void Car::steerLeft()
 {
-    if(this->steerAngle > -this->maxRaceSteerAngle)
+    if(-this->steerAngle < this->maxRaceSteerAngle)
     {
         this->steerAngle -= this->dSteerAngle;
+    }
+    else
+    {
+        this->steerAngle = this->steerAngle;
     }
 }
 
@@ -86,6 +139,7 @@ void Car::setPathToRightTexture()   //function responsible for choose right text
     {
         steerAngle = steerAngle;
     }
+
     if(steerAngle > 0)
     {
         path = path_mainPart.append("mazda_rx7_right" + std::to_string(steerAngle) + ".png");
@@ -101,38 +155,79 @@ void Car::setPathToRightTexture()   //function responsible for choose right text
     this->texturePath = path;
 }
 
-void Car::loadTexture()
+void Car::calculateRPM()
 {
+    this->currentRpm = this->idleRpm+( (60.0*this->gearRatios[this->gear-1]*this->rearAxleRatio)/(this->wheelsCircumference) )*this->velocity;
+}
+
+void Car::calculateGear()
+{
+    if(this->currentRpm >= this->maxRpm)
+    {
+        this->gear+=1;
+    }
+    else if((this->currentRpm < this->maxRpm*0.60) && (this->gear > 1))
+    {
+        this->gear-=1;
+    }
+    else
+    {
+        this->gear = this->gear;
+    }
+}
+
+const double& Car::getXPos() const
+{
+    return this->xPos;
+}
+
+const double& Car::getYPos() const
+{
+    return this->yPos;
+}
+
+const sf::Sprite& Car::getSprite() const
+{
+    return this->sp;
+}
+
+const double& Car::getVelocity() const
+{
+    return this->velocity;
+}
+
+const double& Car::getAngle() const
+{
+    return this->angle;
+}
+
+const double& Car::getSteerAngle() const
+{
+    return this->steerAngle;
+}
+
+const int& Car::getGear() const
+{
+    return this->gear;
+}
+
+const double& Car::getCurrentRpm() const
+{
+    return this->currentRpm;
+}
+
+const double& Car::getLength() const
+{
+    return this->length;
+}
+
+void Car::update()
+{
+    this->setPathToRightTexture();
     this->texture.loadFromFile(this->texturePath);
-}
-
-void Car::setTexture()
-{
     this->sp.setTexture(this->texture);
-}
-
-void Car::getCenterOfTexture()
-{
-    this->center_x = this->texture.getSize().x/2.0;
-    this->center_y = this->texture.getSize().y/2.0;
-}
-
-void Car::setOrigin()
-{
-    this->sp.setOrigin(this->center_x, this->center_y*1.7);
-}
-
-void Car::setScale(double scale)
-{
-    this->sp.setScale(scale, scale);
-}
-
-void Car::setPosition()
-{
     this->sp.setPosition(this->xPos, this->yPos);
-}
-
-void Car::setRotation()
-{
-    this->sp.setRotation(Car::angle);
+    this->sp.setRotation(this->angle);
+    this->calculateRPM();
+    this->calculateGear();
 }

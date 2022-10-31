@@ -1,37 +1,16 @@
 #pragma once
-
-//#include components
+#include <SFML/Graphics.hpp>
 
 class Entity
 {
-    private:
-    //initFunction
-    protected:
-    //Variables
+private:
 
-    public:
-    //Component functions
-    void setTexture();
-    void accelerate();
-    void decelerate();
-    void brake();
-    void steerLeft();
-    void steerRight();
-    void steerReturning();
-    void setPathToRightTexture();
-    void loadTexture();
-    void setTexture();
-    void getCenterOfTexture();
-    void setOrigin();
-    void setScale(double);
-    void setPosition();
-    void setRotation();
-    //Accesors
-    void getPosition();
-    void getAngle();
-    void getSpeed();
-    //Modyfiers
+protected:
 
-    //Update
+public:
+    Entity();
+    virtual ~Entity();
 
+    virtual void update(const float& dt) = 0;
+    virtual void render(sf::RenderTarget target) = 0;
 };

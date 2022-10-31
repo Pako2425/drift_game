@@ -11,18 +11,15 @@
 #include "dashboard.hpp"
 #include "steering_wheel.hpp"
 
-void calculateCarRPM(Car *);
-void calculateCarGear(Car *);
-
 int main()
 {
     Game game;
-    Controller myController;
+    Controller myController;    
     Car Mazda_rx7(640, 480, 0, "images/cars/mazda_rx7_left30.png");
     Map Track1(0.0, 0.0, "images/tracks/track1.png");
     Driving_Physic myPhysic;
-    Dashboard hudDashBoard(900.0, 650.0, "images/hud/rpm_and_speed_gauge.png", "images/hud/rpm_and_speed_tip.png", 0.45);
-    SteeringWheel hudSteeringWheel(160.0, 800.0, "images/hud/steering_wheel.png");
+    //Dashboard hudDashBoard(900.0, 650.0, "images/hud/rpm_and_speed_gauge.png", "images/hud/rpm_and_speed_tip.png", 0.45);
+    //SteeringWheel hudSteeringWheel(160.0, 800.0, "images/hud/steering_wheel.png");
     ////////////////////////////////////////
     sf::SoundBuffer buffer;
     buffer.loadFromFile("sounds/mazda_rx7_acceleration.wav");
@@ -30,12 +27,13 @@ int main()
     sound.setBuffer(buffer);
     sound.setLoop(true);
     sound.setPitch(0.8);
-    //sound.play();
+    sound.play();
     /////////////////////////////////////////
-    //while(game.window->isOpen())
-    while(game.running())
+    
+    while(game.isRunning())
     {
-        game.updateEvents();
+        game.updateSFMLEvents();
+        
         myController.readInput();
         if(myController.steerLeft)
         {
@@ -62,53 +60,14 @@ int main()
         {
             Mazda_rx7.decelerate();
         }
-        myPhysic.moveCar(&Mazda_rx7);
-        calculateCarRPM(&Mazda_rx7);
-        calculateCarGear(&Mazda_rx7);
-        hudDashBoard.readCarData(&Mazda_rx7);
-        hudSteeringWheel.readCarData(&Mazda_rx7);
-        hudDashBoard.showData();
-        hudSteeringWheel.showData();
-        Mazda_rx7.setPathToRightTexture();
-        Mazda_rx7.loadTexture();
-        Mazda_rx7.setTexture();
-        Mazda_rx7.setPosition();
-        Mazda_rx7.setRotation();
+        myPhysic.updateCar(Mazda_rx7);
+        Mazda_rx7.update();
         //////////////////////////////////////////////////////////
-        //sound.setPitch(car_rpm/1400.0);
-        //sound.setPitch(0.5 + car_rpm/1000.0);
-        /////////////////////////////////////////////////////////        
-        game.window->clear();
-        game.window->draw(Track1.sp);
-        game.window->draw(Mazda_rx7.sp);
-        game.window->draw(hudDashBoard.spGauge);
-        game.window->draw(hudDashBoard.spTip);
-        game.window->draw(hudSteeringWheel.sp);
-        game.window->display();
+        //sound.setPitch(0.5 + Mazda_rx7.getCurrentRpm()/1000.0);
+        /////////////////////////////////////////////////////////
+        game.windowDraw(Track1.getSprite());
+        game.windowDraw(Mazda_rx7.getSprite());
+        game.windowDisplay();
     }
     return 0;
-}
-
-void calculateCarRPM(Car *anyCar)
-{
-    anyCar->currentRpm = 800.0+(60.0*anyCar->gearRatios[anyCar->gear-1]*anyCar->rearAxleRatio)/(anyCar->wheelsCircumference)*anyCar->speed;
-}
-
-void calculateCarGear(Car *anyCar)
-{
-    double carRpm = anyCar->currentRpm;
-    double carMaxRpm = anyCar->maxRpm;
-    int carGear = anyCar->gear;
-    if(carRpm >= carMaxRpm)
-    {
-        anyCar->gear+=1;
-    }
-    else if(carRpm<carMaxRpm*0.60 && carGear!=1)
-    {
-        anyCar->gear-=1;
-    }
-    else
-    {
-        anyCar->gear = carGear;
-    }
 }

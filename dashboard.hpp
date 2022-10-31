@@ -30,7 +30,7 @@ class Dashboard
     void setScale(double);
     void setPosition(double, double);
     void setTipAngle();
-    void readCarData(Car *);
+    void readCarData(const Car& anyCar);
     void showData();
 
     Dashboard(double xPos, double yPos, std::string idleGaugeTexturePath, std::string idleTipTexturePath, double idleScale)

@@ -14,14 +14,13 @@ class Driving_Physic
     double newCarXPos;
     double newCarYPos;
 
-    void calculateRadiusOfCarTurningCircle(Car *);
-    void calculateCarRotationAngle(Car *);
-    void calculateNewCarAngle(Car *);
-    void calculateNewCarPosition(Car *);
-    void moveCar(Car *);
+    Driving_Physic();
+    ~Driving_Physic();
 
-    Driving_Physic()
-    {
-        dt = 1.0/60.0;
-    }
+    void calculateRadiusOfCarTurningCircle(const Car& anyCar);
+    void calculateCarRotationAngle(const Car& anyCar);
+    void calculateNewCarAngle(const Car& anyCar);
+    void calculateNewCarPosition(const Car& anyCar);
+    
+    void updateCar(Car& anyCar);
 };

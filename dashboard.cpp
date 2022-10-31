@@ -37,11 +37,11 @@ void Dashboard::setTipAngle()
     this->spTip.setRotation(this->tipAngle);
 }
 
-void Dashboard::readCarData(Car *anyCar)
+void Dashboard::readCarData(const Car& anyCar)
 {
-    this->speed = anyCar->speed;
-    this->rpm = anyCar->currentRpm;
-    this->gear = anyCar->gear;
+    this->speed = anyCar.getVelocity();
+    this->rpm = anyCar.getCurrentRpm();
+    this->gear = anyCar.getGear();
 }
 
 void Dashboard::showData()

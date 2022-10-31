@@ -1,34 +1,36 @@
 #include "driving_physic.hpp"
 #include <cmath>
 
-void Driving_Physic::calculateRadiusOfCarTurningCircle(Car *anyCar)
+Driving_Physic::Driving_Physic()
+{
+    dt = 1.0/60.0;
+}
+
+Driving_Physic::~Driving_Physic()
+{
+
+}
+
+void Driving_Physic::calculateRadiusOfCarTurningCircle(const Car& anyCar)
 {
     double Beta = 0.0;
-    double carSteerAngle = anyCar->steerAngle;
-    double carLength = anyCar->length;
-    if(carSteerAngle < -0.6)
+    if(std::abs(anyCar.getSteerAngle()) > 0.6)
     {
-        Beta = 90.0+carSteerAngle;
-        this->turningRadius = carLength*tan(Beta*M_PI/180);
-    }
-    else if(carSteerAngle > 0.6)
-    {
-        Beta = 90.0-carSteerAngle;
-        this->turningRadius = carLength*tan(Beta*M_PI/180);
+        Beta = 90.0-std::abs(anyCar.getSteerAngle());
+        this->turningRadius = anyCar.getLength()*tan(Beta*M_PI/180);
     }
     else
     {
-        this->turningRadius = -1.0;
+        this->turningRadius = 0.0;
     }
 }
 
-void Driving_Physic::calculateCarRotationAngle(Car *anyCar)
+void Driving_Physic::calculateCarRotationAngle(const Car& anyCar)
 {
     double dAlfa = 0.0;
-    double carSpeed = anyCar->speed;
-    if(this->turningRadius >=0)
+    if(this->turningRadius > 0)
     {
-        dAlfa = carSpeed*this->dt/this->turningRadius;
+        dAlfa = anyCar.getVelocity()*this->dt/this->turningRadius;
         this->dCarRotationAngle = dAlfa*180/M_PI;
     }
     else
@@ -38,38 +40,33 @@ void Driving_Physic::calculateCarRotationAngle(Car *anyCar)
     
 }
 
-void Driving_Physic::calculateNewCarAngle(Car *anyCar)
+void Driving_Physic::calculateNewCarAngle(const Car& anyCar)
 {
-    double carSteerAngle = anyCar->steerAngle;
-    if(carSteerAngle < -0.6)
+    if(anyCar.getSteerAngle() < -0.6)
     {
-        this->newCarAngle = anyCar->angle - dCarRotationAngle;
+        this->newCarAngle = -this->dCarRotationAngle;
     }
-    else if(carSteerAngle > 0.6)
+    else if(anyCar.getSteerAngle() > 0.6)
     {
-        this->newCarAngle = anyCar->angle + dCarRotationAngle;
+        this->newCarAngle = this->dCarRotationAngle;
     }
     else
     {
-        this->newCarAngle = anyCar->angle;
+        this->newCarAngle = 0.0;
     }
 }
 
-void Driving_Physic::calculateNewCarPosition(Car *anyCar)
+void Driving_Physic::calculateNewCarPosition(const Car& anyCar)
 {
-    double carSpeed = anyCar->speed;
-    double carAngle = anyCar->angle;
-    this->newCarXPos = anyCar->xPos + 12.0*carSpeed*this->dt*sin(carAngle*M_PI/180);
-    this->newCarYPos = anyCar->yPos - 12.0*carSpeed*this->dt*cos(carAngle*M_PI/180);
+    this->newCarXPos = 18.0*anyCar.getVelocity()*this->dt*sin(anyCar.getAngle()*M_PI/180);
+    this->newCarYPos = -18.0*anyCar.getVelocity()*this->dt*cos(anyCar.getAngle()*M_PI/180);
 }
 
-void Driving_Physic::moveCar(Car *anyCar)
+void Driving_Physic::updateCar(Car& anyCar)
 {
-    calculateRadiusOfCarTurningCircle(anyCar);
-    calculateCarRotationAngle(anyCar);
-    calculateNewCarAngle(anyCar);
-    calculateNewCarPosition(anyCar);
-    anyCar->xPos = this->newCarXPos;
-    anyCar->yPos = this->newCarYPos;
-    anyCar->angle = this->newCarAngle;
+    this->calculateRadiusOfCarTurningCircle(anyCar);
+    this->calculateCarRotationAngle(anyCar);
+    this->calculateNewCarAngle(anyCar);
+    this->calculateNewCarPosition(anyCar);
+    anyCar.move(this->newCarXPos, this->newCarYPos, this->newCarAngle);
 }

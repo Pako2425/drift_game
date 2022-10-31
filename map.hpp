@@ -4,27 +4,18 @@
 
 class Map
 {
-    public:
+private:
     double xPos;
     double yPos;
     std::string texturePath;
     sf::Texture texture;
     sf::Sprite sp;
 
-    void setTexturePath();
-    void loadTexture();
-    void setTexture();
-    void setScale(double);
-    void setPosition(double, double);
+public:
+    Map(double idleXPos, double idleYPos, std::string idleTexturePath);
+    ~Map();
 
-    Map(double idleXPos, double idleYPos, std::string idleTexturePath)
-    {
-        xPos = idleXPos;
-        yPos = idleYPos;
-        texturePath = idleTexturePath;
-        loadTexture();
-        setTexture();
-        setScale(1.2);
-        setPosition(xPos, yPos);
-    }
+    const double& getXPos() const;
+    const double& getYPos() const;
+    const sf::Sprite& getSprite() const;
 };

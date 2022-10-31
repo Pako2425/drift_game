@@ -22,7 +22,7 @@ class SteeringWheel
     void setScale(double);
     void setPosition(double, double);
     void setRotation(double);
-    void readCarData(Car *);
+    void readCarData(const Car& anyCar);
     void showData();
 
     SteeringWheel(double idleXPos, double idleYPos, std::string idleTexturePath)

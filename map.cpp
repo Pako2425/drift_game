@@ -1,21 +1,33 @@
 #include "map.hpp"
 
-void Map::loadTexture()
+Map::Map(double idleXPos, double idleYPos, std::string idleTexturePath)
 {
-    Map::texture.loadFromFile(Map::texturePath);
+    xPos = idleXPos;
+    yPos = idleYPos;
+    texturePath = idleTexturePath;
+
+    this->texture.loadFromFile(this->texturePath);
+    this->sp.setTexture(this->texture);
+    this->sp.setScale(1.2, 1.2);
+    this->sp.setPosition(this->xPos, this->yPos);
 }
 
-void Map::setTexture()
+Map::~Map()
 {
-    Map::sp.setTexture(Map::texture);
+
 }
 
-void Map::setScale(double scale)
+const double& Map::getXPos() const
 {
-    Map::sp.setScale(scale, scale);
+    return this->xPos;
 }
 
-void Map::setPosition(double x, double y)
+const double& Map::getYPos() const
 {
-    Map::sp.setPosition(x, y);
+    return this->yPos;
+}
+
+const sf::Sprite& Map::getSprite() const
+{
+    return this->sp;
 }
