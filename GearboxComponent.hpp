@@ -2,12 +2,12 @@
 
 class GearboxComponent
 {
-public:
+private:
     int gear;
     double gearRatios[5];
     double rearAxleRatio;
 
-private:
+public:
     GearboxComponent();
     ~GearboxComponent();
     
