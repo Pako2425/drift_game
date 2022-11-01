@@ -15,6 +15,11 @@ void Game_State::endState()
 
 }
 
+void Game_State::input()
+{
+    
+}
+
 void Game_State::update(const float& dt)
 {
 
