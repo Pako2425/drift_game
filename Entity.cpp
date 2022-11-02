@@ -55,3 +55,38 @@ void Entity::createSpriteComponent()
 {
     this->spriteComponent = new SpriteComponent();
 }
+
+PositionComponent* Entity::getPositionComponent()
+{
+    return this->positionComponent;
+}
+
+VelocityComponent* Entity::getVelocityComponent()
+{
+    return this->velocityComponent;
+}
+
+SteeringComponent* Entity::getSteeringComponent()
+{
+    return this->steeringComponent;
+}
+
+EngineComponent* Entity::getEngineComponent()
+{
+    return this->engineComponent;
+}
+
+GearboxComponent* Entity::getGearboxComponent()
+{
+    return this->gearboxComponent;
+}
+
+CarDimensionsComponent* Entity::getCarDimensionsComponent()
+{
+    return this->carDimensionsComponent;
+}
+
+SpriteComponent* Entity::getSpriteComponent()
+{
+    return this->spriteComponent;
+}

@@ -1,5 +1,10 @@
 #include "Game_State.hpp"
 
+void Game_State::initVariables()
+{
+    this->player = ;
+}
+
 Game_State::Game_State(sf::RenderWindow* window) : State(window)
 {
 

@@ -6,7 +6,6 @@ class Player : Entity
 {
 private:
 
-
 public:
     Player();
     ~Player();
