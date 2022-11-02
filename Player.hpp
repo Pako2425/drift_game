@@ -5,6 +5,7 @@
 class Player : Entity
 {
 private:
+    void createComponents();
 
 public:
     Player();

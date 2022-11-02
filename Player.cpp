@@ -1,6 +1,6 @@
 #include "Player.hpp"
 
-Player::Player()
+void Player::createComponents()
 {
     this->createPositionComponent(640.0, 480.0, 0.0);
     this->createVelocityComponent(67.0);
@@ -9,6 +9,11 @@ Player::Player()
     this->createCarDimensionsComponent();
     this->createGearboxComponent();
     this->createEngineComponent();
+}
+
+Player::Player()
+{
+    this->createComponents();
 }
 
 Player::~Player()

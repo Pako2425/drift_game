@@ -2,7 +2,7 @@
 
 void Game_State::initVariables()
 {
-    this->player = ;
+    this->player = new Player();
 }
 
 Game_State::Game_State(sf::RenderWindow* window) : State(window)
