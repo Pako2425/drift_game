@@ -17,7 +17,6 @@ private:
     void initVariables();
     void initWindow();
     void initStates();
-    void initView();
     
 public:
     Game();

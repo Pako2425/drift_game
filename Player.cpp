@@ -21,8 +21,12 @@ Player::~Player()
 
 }
 
-
 void Player::update(const float& dt)
+{
+    
+}
+
+void Player::render(sf::RenderTarget*)
 {
     
 }

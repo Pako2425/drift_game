@@ -16,9 +16,11 @@ private:
 protected:
     sf::RenderWindow* window;
     std::map<std::string, sf::Texture> textures;
+
 public:
     State(sf::RenderWindow* window);
     virtual ~State();
+
     virtual void endState() = 0;
     virtual void input() = 0;
     virtual void update(const float& dt) = 0;

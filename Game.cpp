@@ -22,7 +22,6 @@ Game::Game()
     this->initVariables();
     this->initWindow();
     this->initStates();
-    this->initView();
 }
 
 Game::~Game()
@@ -80,12 +79,6 @@ void Game::render()
 
 void Game::run()
 {
-    this->updateSFMLEvents();
     this->update();
     this->render();
-}
-
-void Game::windowDraw(const sf::Sprite& sp) const
-{
-    this->window->draw(sp);
 }

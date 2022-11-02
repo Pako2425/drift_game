@@ -14,12 +14,12 @@ PositionComponent::~PositionComponent()
 
 const sf::Vector2f& PositionComponent::getPosition()
 {
-    this->xyPos;
+    return this->xyPos;
 }
 
-const float& PositionComponent::getAngle()
+const double& PositionComponent::getAngle()
 {
-    this->angle;
+    return this->angle;
 }
 
 void PositionComponent::move(const double dx, const double dy, const double dAngle)
