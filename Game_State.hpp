@@ -19,7 +19,7 @@ public:
     void updatePlayer();
     void updateView();
 
-    void endState();
+    void endState();        //funckja wychodząca i kończąca obecny State, do napisania
     void input();
     void update(const float& dt);
     void render(sf::RenderTarget* target = nullptr);

@@ -21,3 +21,8 @@ Player::~Player()
 
 }
 
+
+void Player::update(const float& dt)
+{
+    
+}

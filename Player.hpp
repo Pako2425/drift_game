@@ -2,7 +2,7 @@
 
 #include "Entity.hpp"
 
-class Player : Entity
+class Player : public Entity
 {
 private:
     void createComponents();
@@ -12,5 +12,5 @@ public:
     ~Player();
 
     void update(const float& dt);
-    void render(sf::RenderTarget target);
+    void render(sf::RenderTarget* target);
 };
