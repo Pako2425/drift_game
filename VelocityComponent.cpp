@@ -1,7 +1,14 @@
 #include "VelocityComponent.hpp"
 
+void VelocityComponent::initVariables()
+{
+    this->velocity = 0.0;
+    this->maxVelocity = 0.0;
+}
+
 VelocityComponent::VelocityComponent(double maxVelocity)
 {
+    this->initVariables();
     this->maxVelocity = maxVelocity;
 }
 

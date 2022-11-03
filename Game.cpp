@@ -50,6 +50,11 @@ void Game::updateSFMLEvents()
     }
 }
 
+void Game::inputs()
+{
+    this->states.top()->input();
+}
+
 void Game::updateDt()
 {
     this->dt = this->dtClock.restart().asSeconds();
@@ -79,6 +84,7 @@ void Game::render()
 
 void Game::run()
 {
+    this->inputs();
     this->update();
     this->render();
 }

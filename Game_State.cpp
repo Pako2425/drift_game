@@ -1,4 +1,5 @@
 #include "Game_State.hpp"
+#include <iostream>
 
 void Game_State::initVariables()
 {
@@ -6,14 +7,16 @@ void Game_State::initVariables()
     this->view.rotate(0.0);
     this->player = new Player();
     this->trackMap = new TrackMap();
-    
+    this->gasPedal = false;
+    this->brakePedal = false;
+    this->steerLeft = false;
+    this->steerRight = false;
+
     sf::Texture texture;
     texture.loadFromFile("images/cars/mazda_rx7.png");
     this->textures["mazda_rx7"] = texture;
     texture.loadFromFile("images/tracks/track1.png");
     this->textures["track1"] = texture;
-
-    
 }
 
 void Game_State::initPlayerSpriteComponent()
@@ -44,7 +47,30 @@ void Game_State::endState()
 
 void Game_State::input()
 {
-    
+    this->gasPedal = false;
+    this->brakePedal = false;
+    this->steerLeft = false;
+    this->steerRight = false;
+    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+    {
+        this->gasPedal = true;
+        std::cout<<'g'<<std::endl;
+    }
+    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
+    {
+        this->brakePedal = true;
+        std::cout<<'b'<<std::endl;
+    }
+    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+    {
+        this->steerLeft = true;
+        std::cout<<'l'<<std::endl;
+    }
+    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+    {
+        this->steerRight = true;
+        std::cout<<'r'<<std::endl;
+    }
 }
 
 void Game_State::updatePlayer()

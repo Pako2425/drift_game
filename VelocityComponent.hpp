@@ -7,6 +7,7 @@ class VelocityComponent
 private:
     double velocity;     //in m/s
     double maxVelocity;
+    void initVariables();
 public:
     VelocityComponent(double maxSpeed);
     ~VelocityComponent();
