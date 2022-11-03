@@ -13,6 +13,11 @@ void Game_State::initVariables()
     texture.loadFromFile("images/tracks/track1.png");
     this->textures["track1"] = texture;
 
+    
+}
+
+void Game_State::initPlayerSpriteComponent()
+{
     (this->player->getSpriteComponent()->getSprite()).setTexture(this->textures["mazda_rx7"]);
     (this->player->getSpriteComponent()->getSprite()).setScale(0.2, 0.2);
     (this->player->getSpriteComponent()->getSprite()).setOrigin(textures["mazda_rx7"].getSize().x*0.5, textures["mazda_rx7"].getSize().y*0.85);
@@ -23,6 +28,7 @@ void Game_State::initVariables()
 Game_State::Game_State(sf::RenderWindow* window) : State(window)
 {
     this->initVariables();
+    this->initPlayerSpriteComponent();
 }
 
 Game_State::~Game_State()

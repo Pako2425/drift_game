@@ -12,6 +12,7 @@ private:
     TrackMap* trackMap;
 
     void initVariables();
+    void initPlayerSpriteComponent();
     void initKeybinds();   //funkcja która inicjalizuje klawisze do wciśnięcia; do napisania
     void initTextures();   //inicjalizuje zasoby textur
 public:
