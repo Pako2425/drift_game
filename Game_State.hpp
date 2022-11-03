@@ -15,11 +15,23 @@ private:
     bool brakePedal;
     bool steerLeft;
     bool steerRight;
+
+    double dt;
+    double turningRadius;
+    double dCarRotationAngle;
+    double newCarAngle;
+    double newCarXPos;
+    double newCarYPos;
     
     void initVariables();
     void initPlayerSpriteComponent();
     void initKeybinds();   //funkcja która inicjalizuje klawisze do wciśnięcia; do napisania
     void initTextures();   //inicjalizuje zasoby textur
+
+    void calculateRadiusOfCarTurningCircle();
+    void calculateCarRotationAngle();
+    void calculateNewCarAngle();
+    void calculateNewCarPosition();
 public:
     Game_State(sf::RenderWindow* window);
     ~Game_State();

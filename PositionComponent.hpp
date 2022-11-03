@@ -16,7 +16,6 @@ public:
     const double& getAngle();
     //functions
     void move(const double dx, const double dy, const double dAngle);
-    void rotate(const double dAngle);
     //update
     //void update();
 };

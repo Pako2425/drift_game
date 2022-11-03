@@ -11,6 +11,12 @@ void Game_State::initVariables()
     this->brakePedal = false;
     this->steerLeft = false;
     this->steerRight = false;
+    this->turningRadius = 0.0;
+    this->dCarRotationAngle = 0.0;
+    this->newCarAngle = 0.0;
+    this->newCarXPos = 0.0;
+    this->newCarYPos = 0.0;
+    this->dt = 1.0/60.0;
 
     sf::Texture texture;
     texture.loadFromFile("images/cars/mazda_rx7.png");
@@ -47,35 +53,103 @@ void Game_State::endState()
 
 void Game_State::input()
 {
-    this->gasPedal = false;
-    this->brakePedal = false;
-    this->steerLeft = false;
-    this->steerRight = false;
+    //this->gasPedal = false;
+    //this->brakePedal = false;
+    //this->steerLeft = false;
+    //this->steerRight = false;
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
     {
-        this->gasPedal = true;
-        std::cout<<'g'<<std::endl;
+        //this->gasPedal = true;
+        this->player->getVelocityComponent()->accelerate();
     }
-    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
+    else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
     {
-        this->brakePedal = true;
-        std::cout<<'b'<<std::endl;
+        //this->brakePedal = true;
+        this->player->getVelocityComponent()->brake();
     }
+    else
+    {
+        this->player->getVelocityComponent()->decelerate();
+    }
+
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
     {
-        this->steerLeft = true;
-        std::cout<<'l'<<std::endl;
+        //this->steerLeft = true;
+        this->player->getSteeringComponent()->steerLeft();
     }
-    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+    else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
     {
-        this->steerRight = true;
-        std::cout<<'r'<<std::endl;
+        //this->steerRight = true;
+        this->player->getSteeringComponent()->steerRight();
+    }
+    else
+    {
+        this->player->getSteeringComponent()->steerReturning();
     }
 }
 
+//-------------------------CAR_SECTION-----------------------------
+void Game_State::calculateRadiusOfCarTurningCircle()
+{
+    double Beta = 0.0;
+    if(std::abs(this->player->getSteeringComponent()->getSteerAngle()) > 0.6)
+    {
+        Beta = 90.0-std::abs(this->player->getSteeringComponent()->getSteerAngle());
+        this->turningRadius =  this->player->getCarDimensionsComponent()->getLength() * tan(Beta*M_PI/180);
+    }
+    else
+    {
+        this->turningRadius = 0.0;
+    }
+}
+
+void Game_State::calculateCarRotationAngle()
+{
+    double dAlfa = 0.0;
+    if(this->turningRadius > 0)
+    {
+        dAlfa = this->player->getVelocityComponent()->getVelocity() * this->dt/this->turningRadius;
+        this->dCarRotationAngle = dAlfa*180/M_PI;
+    }
+    else
+    {
+        this->dCarRotationAngle = 0.0;
+    }
+}
+
+void Game_State::calculateNewCarAngle()
+{
+    if(this->player->getSteeringComponent()->getSteerAngle() < -0.6)
+    {
+        this->newCarAngle = -this->dCarRotationAngle;
+    }
+    else if(this->player->getSteeringComponent()->getSteerAngle() > 0.6)
+    {
+        this->newCarAngle = this->dCarRotationAngle;
+    }
+    else
+    {
+        this->newCarAngle = 0;
+    }
+}
+
+void Game_State::calculateNewCarPosition()
+{
+    this->newCarXPos = 18.0 * this->player->getVelocityComponent()->getVelocity() * this->dt * sin(this->player->getPositionComponent()->getAngle() * M_PI/180);
+    this->newCarYPos = -18.0 * this->player->getVelocityComponent()->getVelocity() * this->dt * cos(this->player->getPositionComponent()->getAngle() * M_PI/180);
+}
+//---------------------END_CAR_SECTION-------------------------------
+
 void Game_State::updatePlayer()
 {
+    this->calculateRadiusOfCarTurningCircle();
+    this->calculateCarRotationAngle();
+    this->calculateNewCarAngle();
+    this->calculateNewCarPosition();
+    this->player->getPositionComponent()->move(this->newCarXPos, this->newCarYPos, this->newCarAngle);
     this->player->getSpriteComponent()->getSprite().setTexture(this->textures["mazda_rx7"]);
+    this->player->getSpriteComponent()->getSprite().setPosition(this->player->getPositionComponent()->getPosition());
+    this->player->getSpriteComponent()->getSprite().setRotation(this->player->getPositionComponent()->getAngle());
 }
 
 void Game_State::updateTrackMap()
@@ -85,7 +159,8 @@ void Game_State::updateTrackMap()
 
 void Game_State::updateView()
 {
-    this->view.rotate(this->player->getPositionComponent()->getAngle());
+    this->view.move(this->newCarXPos, this->newCarYPos);
+    this->view.rotate(this->newCarAngle);
 }
 
 void Game_State::update(const float& dt)
