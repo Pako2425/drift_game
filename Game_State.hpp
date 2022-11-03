@@ -2,12 +2,14 @@
 #include <SFML/Graphics.hpp>
 #include "State.hpp"
 #include "Player.hpp"
+#include "TrackMap.hpp"
 
 class Game_State : public State
 {
 private:
     sf::View view;
     Player* player;
+    TrackMap* trackMap;
 
     void initVariables();
     void initKeybinds();   //funkcja która inicjalizuje klawisze do wciśnięcia; do napisania
@@ -17,6 +19,7 @@ public:
     ~Game_State();
 
     void updatePlayer();
+    void updateTrackMap();
     void updateView();
 
     void endState();        //funckja wychodząca i kończąca obecny State, do napisania
