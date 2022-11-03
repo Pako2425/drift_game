@@ -12,6 +12,12 @@ void Game_State::initVariables()
     this->textures["mazda_rx7"] = texture;
     texture.loadFromFile("images/tracks/track1.png");
     this->textures["track1"] = texture;
+
+    (this->player->getSpriteComponent()->getSprite()).setTexture(this->textures["mazda_rx7"]);
+    (this->player->getSpriteComponent()->getSprite()).setScale(0.2, 0.2);
+    (this->player->getSpriteComponent()->getSprite()).setOrigin(textures["mazda_rx7"].getSize().x*0.5, textures["mazda_rx7"].getSize().y*0.85);
+    (this->player->getSpriteComponent()->getSprite()).setPosition(this->player->getPositionComponent()->getPosition().x, this->player->getPositionComponent()->getPosition().y);
+    (this->player->getSpriteComponent()->getSprite()).setRotation(this->player->getPositionComponent()->getAngle());
 }
 
 Game_State::Game_State(sf::RenderWindow* window) : State(window)
